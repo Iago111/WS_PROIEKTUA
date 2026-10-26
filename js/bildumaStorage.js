@@ -1,4 +1,4 @@
-const BILDUMA_GAKOA = 'bilduma';
+const BILDUMA_GAKOA = '';
 
 class bildumaStorage {
   static denakLortu() {

@@ -1,7 +1,7 @@
 const ATALAK = ['hasiera', 'bilatzaile', 'bilduma', 'kudeatuBilduma'];
 
 const HASIERATZAILEAK = {
-  bilatzaile: () => {},
+  bilatzaile: () => bilatuApi(),
   bilduma: () => {},
   kudeatuBilduma: () => {}
 };
