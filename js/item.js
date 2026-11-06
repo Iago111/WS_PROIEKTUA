@@ -23,7 +23,7 @@ class Item {
 
     // Taldearen informazioa (estatistiketatik)
     this.taldea = ApiDatuak.estadistikak?.[0].team.name;
-
+    this.taldeLogo = ApiDatuak.estadistikak?.[0].team.logo;
     // Estatistikak
     this.estatistikak = ApiDatuak.estadistikak || [];
 
@@ -67,30 +67,24 @@ class Item {
         <p>${this.taldea || "Ez dago eskuragarri"}</p>
 
         <h3>${this.denb} Denboraldiko estatistikak</h3>
+          
+          <p><strong>Partidak:</strong> ${this.estatistikak.reduce((acc,x)=>{return acc+x.games.appearences},0) ?? 0}</p>
+          <p><strong>Hasierako hamaikakoa:</strong> ${this.estatistikak.reduce((acc,x)=>{return acc+x.games.lineups},0) ?? 0}</p>
+          <p><strong>Minutuak:</strong> ${this.estatistikak.reduce((acc,x)=>{return acc+x.games.minutes},0) ?? 0}</p>
+          <p><strong>Posizioa:</strong> ${this.estatistikak[0].games.position || "Ez dago eskuragarri"}</p>
 
-        ${this.estatistikak.map(est => `
-          <div class="estatistikak">
-            <h4>${est.league.name}</h4>
+          <p><strong>Golak:</strong> ${this.estatistikak.reduce((acc,x)=>{return acc+x.goals.total},0) ?? 0}</p>
+          <p><strong>Tiroak:</strong> ${this.estatistikak.reduce((acc,x)=>{return acc+x.shots.total},0) ?? 0}</p>
+          <p><strong>Asistentziak:</strong> ${this.estatistikak.reduce((acc,x)=>{return acc+x.goals.assists},0) ?? 0}</p>
 
-            <p><strong>Partidak:</strong> ${est.games.appearences ?? 0}</p>
-            <p><strong>Hasierako hamaikakoa:</strong> ${est.games.lineups ?? 0}</p>
-            <p><strong>Minutuak:</strong> ${est.games.minutes ?? 0}</p>
-            <p><strong>Posizioa:</strong> ${est.games.position || "Ez dago eskuragarri"}</p>
+          <p><strong>Txartel horiak:</strong> ${this.estatistikak.reduce((acc,x)=>{return acc+x.cards.yellow},0) ?? 0}</p>
+          <p><strong>Txartel gorriak:</strong> ${this.estatistikak.reduce((acc,x)=>{return acc+x.cards.red},0) ?? 0}</p>
 
-            <p><strong>Golak:</strong> ${est.goals.total ?? 0}</p>
-            <p><strong>Asistentziak:</strong> ${est.goals.assists ?? 0}</p>
-
-            <p><strong>Txartel horiak:</strong> ${est.cards.yellow ?? 0}</p>
-            <p><strong>Txartel gorriak:</strong> ${est.cards.red ?? 0}</p>
-
-            <p><strong>Paseak:</strong> ${est.passes.total ?? 0}</p>
-            <p><strong>Pase giltzarriak:</strong> ${est.passes.key ?? 0}</p>
-            <p><strong>Partidako faltak:</strong> ${est.fouls.committed ?? 0}</p>
-          </div>
-        `).join("")}
-
-        <p><small><strong>Gordetako data:</strong> ${this.gordetakoData.toLocaleDateString("eu-ES")}</small></p>
-      </div>
+          <p><strong>Paseak:</strong> ${this.estatistikak.reduce((acc,x)=>{return acc+x.passes.total},0) ?? 0}</p>
+          <p><strong>Pase giltzarriak:</strong> ${this.estatistikak.reduce((acc,x)=>{return acc+x.passes.key},0) ?? 0}</p>
+          <p><strong>Partidako faltak:</strong> ${this.estatistikak.reduce((acc,x)=>{return acc+x.fouls.committed},0) ?? 0}</p>
+       
+          <p><small><strong>Gordetako data:</strong> ${this.gordetakoData.toLocaleDateString("eu-ES")}</small></p>
     `;
   }
 
