@@ -1,15 +1,34 @@
 <h2>Bilatzaile</h2>
-
+<p>Kaixo, lehenengo aukeratu bilatu nahi duzun taldea aukeratu, gero Jokalariaren izena bilatu eta bere denboraldia (soilik 2022 eta 2024 arteko denboraldiak daude baimendutak)</p>
 <section id="bilaketa" class="panel">
   <h3>Bilaketa</h3>
   <form id="form-bilatzaile">
-    <input type="text" id="input-bilaketa" autocomplete="off" placeholder="Bilatzen...">
+    <input type="text" id="jokalari-bilaketa" autocomplete="off" placeholder="Jokalariaren Izena" required>
+    <input type="number" id="denboraldi-bilaketa" autocomplete="off" placeholder="Adb: 2022" min="2022", max="2024" required>
+    <input type="number" id="talde-bilaketa-jokalaria" autocomplete="off" placeholder="Aukeratu taldea behean" required>
     <button type="submit">Bilatu</button>
   </form>
   <p id="egoera-bilatzen"></p>
+  <button id="emaitzak_ezabatu">ezabatu emaitzak</button>
+</section>
+
+
+<section id="talde-bilaketa-section" class="panel">
+  <h3>Talde bilaketa</h3>
+  <form id="form-bilatzaile-taldea">
+    <input type="text" id="talde-bilaketa" autocomplete="off" placeholder="Taldea..." required>
+    <button type="submit">Bilatu</button>
+  </form>
+  <p id="egoera-bilatzen-taldea"></p>
 </section>
 
 <div class="bilatzaile-edukia">
+  <section id="talde-emaitzak" class="panel">
+    <h3>Talde emaitzak</h3>
+    <div id="talde-emaitzak-bilaketa">
+      <p id="talde-egoera">Taldeen bilaketa gauzatu taldeak ikusteko</p>
+    </div>
+  </section>
 
   <section id="emaitzak" class="panel">
     <h3>Emaitzak</h3>
