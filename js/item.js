@@ -85,6 +85,14 @@ class Item {
           <p><strong>Partidako faltak:</strong> ${this.estatistikak.reduce((acc,x)=>{return acc+x.fouls.committed},0) ?? 0}</p>
        
           <p><small><strong>Gordetako data:</strong> ${this.gordetakoData.toLocaleDateString("eu-ES")}</small></p>
+          <label for="nota">Puntuación (1-5):</label>
+          <input type="balorazioa" id="nota" name="nota" min="1" max="5" required>
+          <p></p>
+          <label for="editor">DESCRIBAPENA</label><br>
+          <textarea id="describapena" rows="6" cols="50" placeholder="Describapena"></textarea>
+          <p></p>
+          <button type="button" id="gordeBiltegian"> Gorde biltegian</button>
+
     `;
   }
 
