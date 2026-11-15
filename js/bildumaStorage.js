@@ -12,9 +12,9 @@ class bildumaStorage {
 
   static gorde(item) {
     const bilduma=bildumaStorage.denakLortu()
-    const aurkitua = bilduma.find(x=>x.id===item.id) 
+    const aurkitua = bilduma.find(x=>x.cardId===item.cardId) 
     if(!aurkitua){
-      bilduma.push(item)
+      bilduma.push(item.toStorageObject())
       localStorage.setItem(BILDUMA_GAKOA, JSON.stringify(bilduma))
     }
   }

@@ -1,6 +1,8 @@
 
 class Item {
   constructor(ApiDatuak) {
+    //kartaren id denboralditan bereizteko
+    this.cardId=ApiDatuak.season ? `${ApiDatuak.id}-${ApiDatuak.season}` : null;
     //denbboraldia
     this.denb=ApiDatuak.season
     // Informazio orokorra
@@ -31,12 +33,14 @@ class Item {
     this.gordetakoData = ApiDatuak.gordetakoData
       ? new Date(ApiDatuak.gordetakoData)
       : new Date();
+    this.balorazioa = ApiDatuak.balorazioa || ""
+    this.iruzkina = ApiDatuak.iruzkina || ""
   }
 
   // Bilaketako txartela
   toHTML() {
     return `
-      <div class="item-card" data-id="${this.id}">
+      <div class="item-card" data-id="${this.cardId ? this.cardId : this.id}">
         <img src="${this.irudia || ""}" alt="${this.izena}" width="80">
         <h3>${this.izena} ${this.abizena || ""}</h3>
         <p>${this.taldea || "Talde ezezaguna"}</p>
@@ -53,7 +57,7 @@ class Item {
 
         <img src="${this.irudia || ""}" alt="${this.izena}" width="150">
 
-        <p><strong>ID:</strong> ${this.id}</p>
+        <p><strong>ID:</strong> ${this.cardId}</p>
         <p><strong>Adina:</strong> ${this.adina ?? "Ez dago eskuragarri"}</p>
         <p><strong>Nazionalitatea:</strong> ${this.nazionalitatea || "Ez dago eskuragarri"}</p>
         <p><strong>Jaiotze data:</strong> ${this.jaiotzeData || "Ez dago eskuragarri"}</p>
@@ -84,12 +88,11 @@ class Item {
           <p><strong>Pase giltzarriak:</strong> ${this.estatistikak.reduce((acc,x)=>{return acc+x.passes.key},0) ?? 0}</p>
           <p><strong>Partidako faltak:</strong> ${this.estatistikak.reduce((acc,x)=>{return acc+x.fouls.committed},0) ?? 0}</p>
        
-          <p><small><strong>Gordetako data:</strong> ${this.gordetakoData.toLocaleDateString("eu-ES")}</small></p>
           <label for="nota">Puntuación (1-5):</label>
           <input type="balorazioa" id="nota" name="nota" min="1" max="5" required>
           <p></p>
-          <label for="editor">DESCRIBAPENA</label><br>
-          <textarea id="describapena" rows="6" cols="50" placeholder="Describapena"></textarea>
+          <label for="editor">IRUZKINA</label><br>
+          <textarea id="iruzkina" rows="6" cols="50" placeholder="Iruzkina"></textarea>
           <p></p>
           <button type="button" id="gordeBiltegian"> Gorde biltegian</button>
 
@@ -99,6 +102,8 @@ class Item {
   // LocalStorage-rako objektua prestatu
   toStorageObject() {
     return {
+      cardId: this.cardId,
+      season: this.denb,
       id: this.id,
       name: this.izena,
       lastname: this.abizena,
@@ -113,8 +118,10 @@ class Item {
       height: this.altuera,
       weight: this.pisua,
       injured: this.lesionatuta,
-      statistics: this.estatistikak,
-      gordetakoData: this.gordetakoData.toISOString()
+      estadistikak: this.estatistikak,
+      gordetakoData: this.gordetakoData.toISOString(),
+      iruzkina: this.iruzkina,
+      balorazioa: this.balorazioa
     };
   }
 

@@ -2,9 +2,46 @@ const ATALAK = ['hasiera', 'bilatzaile', 'bilduma', 'kudeatuBilduma'];
 
 const HASIERATZAILEAK = {
   bilatzaile: () => bilatuApi(),
-  bilduma: () => {},
+  bilduma: () => {erakutsiBilduma()},
   kudeatuBilduma: () => {}
 };
+function erakutsiBilduma() {
+  const itemak = document.getElementById("lista-bilduma");
+  if (!itemak) return; 
+
+  const nireBilduma = bildumaStorage.itemBezalaLortu();
+  const itemXehetasunak = document.getElementById("xehetasun-bilduma");
+
+  if (nireBilduma.length == 0) {
+    itemak.innerHTML = "<p>Oraindik ez duzu item-ik gorde.</p>";
+    return;
+  }
+
+  itemak.innerHTML = nireBilduma.map(item => item.toHTML()).join("");
+  nireBilduma.forEach(item => {
+    const datuak = itemak.querySelector(`[data-id="${item.cardId || item.id}"]`);
+    if (datuak) {
+      datuak.addEventListener("click", function() {
+        itemXehetasunak.innerHTML = item.toXehetasunHTML();
+      });
+    }
+  });
+
+  const izenarekinBilatu = document.getElementById("jokalariaBilaketa")
+  izenarekinBilatu.addEventListener("input", function(){
+    const testua = izenarekinBilatu.value.toLowerCase();
+    const filtratu = nireBilduma.filter(item=>((item.izena).toLowerCase()).startsWith(testua) || ((item.abizena || "").toLowerCase()).startsWith(testua))
+    itemak.innerHTML = filtratu.map(item => item.toHTML()).join("");
+    filtratu.forEach(item => {
+    const datuak = itemak.querySelector(`[data-id="${item.cardId || item.id}"]`);
+    if (datuak) {
+      datuak.addEventListener("click", function() {
+        itemXehetasunak.innerHTML = item.toXehetasunHTML();
+      });
+    }
+  });
+  })
+}
 
 async function atalaKargatu(izena) {
   const edukiontzia = document.getElementById(`atala-${izena}`);
@@ -37,6 +74,10 @@ function erakutsiAtala(izena) {
   }
 
   atala.classList.add('aktiboa');
+
+  if (izena === 'bilduma') {
+    erakutsiBilduma();
+  }
 
   console.log('Clases del contenedor:', atala.className);
   console.log('Contenido:', atala.innerHTML);

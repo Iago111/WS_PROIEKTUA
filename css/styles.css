@@ -92,8 +92,10 @@ main {
 #bilaketa,
 #bilduma-kontrolak,
 #ekintzak-kudeatu{
-  margin-bottom: 24px;
-}
+  display: flex;
+  flex-wrap: wrap;      /* Por si la pantalla es pequeña, que bajen sin romperse */
+  align-items: center;  /* Los alinea verticalmente al centro */
+  gap: 16px;}
 
 #egoera-bilatzen:empty,
 #bilduma-kontrolak:empty {
