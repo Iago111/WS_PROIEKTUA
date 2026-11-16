@@ -3,7 +3,7 @@ const ATALAK = ['hasiera', 'bilatzaile', 'bilduma', 'kudeatuBilduma'];
 const HASIERATZAILEAK = {
   bilatzaile: () => bilatuApi(),
   bilduma: () => {erakutsiBilduma()},
-  kudeatuBilduma: () => {}
+  kudeatuBilduma: () => {erakutsiBildumaKudeatzailea()}
 };
 function erakutsiBilduma() {
   const izenarekinBilatu = document.getElementById("jokalariaBilaketa");
@@ -35,10 +35,10 @@ function aplikatuIragazkiak() {
     if (irizpidea === "izena") {
       emaitza = a.izena.localeCompare(b.izena);
     } else if (irizpidea === "balorazioa") {
-      emaitza = a.balorazioa - b.balorazioa;
+      emaitza = Number(a.balorazioa) - Number(b.balorazioa);
     } else if (irizpidea === "golak") {
-      const golakA = a.estatistikak.reduce((acc, x) => acc + (x.goals?.total || 0), 0);
-      const golakB = b.estatistikak.reduce((acc, x) => acc + (x.goals?.total || 0), 0);
+      const golakA = a.estatistikak.reduce((acc, x) => acc + (x.goals.total || 0), 0);
+      const golakB = b.estatistikak.reduce((acc, x) => acc + (x.goals.total || 0), 0);
       emaitza = golakA - golakB;
     }
     
@@ -86,6 +86,47 @@ async function atalaKargatu(izena) {
   }
 }
 
+function erakutsiBildumaKudeatzailea(){
+  const hustuBotoia = document.getElementById("botoia-hustu")
+  hustuBotoia.addEventListener("click",hustuBiltegia)
+  eguneratuKudeatzailea()
+}
+function eguneratuKudeatzailea(){
+  const lista = document.getElementById("lista-kudeatu")
+  const bilduma=bildumaStorage.itemBezalaLortu();
+  if(bilduma.length===0){
+    lista.innerHTML=`<p>Ez daude kartarik</p>`
+    return
+  }
+  lista.innerHTML = bilduma.map(item=>item.toBildumaKudeatu()).join("")
+
+  bilduma.forEach(item=>{
+    const unekoId=item.cardId;
+    const gordeBotoia=lista.querySelector(`#gorde-${unekoId}`)
+
+    gordeBotoia.addEventListener("click", function(){
+      const nota =lista.querySelector(`#nota-${unekoId}`)
+      if(nota.value.trim()==="" || Number(nota.value)>5 || Number(nota.value)<1){
+        nota.value="3";
+      }
+      const iruzkina=lista.querySelector(`#iruzkina-${unekoId}`).value
+      bildumaStorage.eguneratu(unekoId,nota.value,iruzkina)
+      lista.querySelector(`#text-${unekoId}`).textContent=`${item.izena} ${item.abizena} eguneratu da`
+    }) 
+
+    const ezabatuBotoia=lista.querySelector(`#ezabatu-${unekoId}`)
+
+    ezabatuBotoia.addEventListener("click",function(){
+      bildumaStorage.ezabatu(unekoId)
+      eguneratuKudeatzailea()
+    })
+  })
+}
+function hustuBiltegia(){
+  bildumaStorage.hustu()
+  eguneratuKudeatzailea()
+}
+
 function erakutsiAtala(izena) {
   console.log('Erakutsi atala:', izena);
  document.querySelectorAll('.atala').forEach(sec => {
@@ -104,6 +145,8 @@ function erakutsiAtala(izena) {
 
   if (izena === 'bilduma') {
     erakutsiBilduma();
+  }else if (izena=='kudeatuBilduma'){
+    eguneratuKudeatzailea();
   }
 
   console.log('Clases del contenedor:', atala.className);

@@ -112,6 +112,22 @@ main {
   margin-top: 0;
 }
 
+ .kudeatu {
+  border: 1px solid #d1d5db;
+  border-radius: 8px;
+  padding: 20px;
+  margin-bottom: 20px; 
+  background-color: #ffffff;
+  }
+
+.kudeatu input,
+.kudeatu textarea {
+  width: 100%;
+  box-sizing: border-box;
+  margin-bottom: 12px;
+  padding: 8px;
+}
+
 @media (max-width: 800px) {
   #biltegi-nagusia {
     flex-direction: column;

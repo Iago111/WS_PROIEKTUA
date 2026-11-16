@@ -42,9 +42,9 @@ class Item {
     return `
       <div class="item-card" data-id="${this.cardId ? this.cardId : this.id}">
         <img src="${this.irudia || ""}" alt="${this.izena}" width="80">
-        <h3>${this.izena} ${this.abizena || ""} ${this.denb}</h3>
-        <p>${this.taldea || "Talde ezezaguna"}</p>
-        <p>${this.adina || "?"} urte</p>
+        <h3>${this.izena} ${this.abizena || ""} ${this.denb || ""}</h3>
+        <p>${this.taldea || ""}</p>
+        <p>${this.adina ? `${this.adina} urte` : ""}</p>
       </div>
     `;
   }
@@ -102,6 +102,20 @@ class Item {
     ;
   }
 
+  toBildumaKudeatu() {
+  const unekoId = this.cardId
+  return `<div class="kudeatu" data-id="${unekoId}">
+    <h2>${this.izena} ${this.abizena || ""} ${this.denb || ""}</h2>
+    <image src="${this.irudia}">
+    <p><strong>Balorazioa:</strong></p>
+    <input type="number" id="nota-${unekoId}" min="1" max="5" value="${this.balorazioa}"> 
+    <p><strong>Iruzkina:</strong></p>
+    <textarea id="iruzkina-${unekoId}" rows="6" cols="50" placeholder="Iruzkina">${this.iruzkina}</textarea>
+    <button type="button" id="gorde-${unekoId}">Gorde Aldaketak</button>
+    <button type="button" id="ezabatu-${unekoId}">Ezabatu Karta</button>
+    <p id="text-${unekoId}"><p>
+  </div>`;
+  }
   // LocalStorage-rako objektua prestatu
   toStorageObject() {
     return {

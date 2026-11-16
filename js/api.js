@@ -77,9 +77,18 @@ async function bilatuApi() {
           const iruzkina = document.getElementById("iruzkina");
 
           gordetzekoBotoia.addEventListener("click", function() {
+            if (balorazioa.value.trim()===""){
+              balorazioa.value=3
+            }
             player.balorazioa = balorazioa.value;
             player.iruzkina = iruzkina.value;
-            bildumaStorage.gorde(player);
+            const gordeTestua=document.getElementById("gorde")
+            const gorde =bildumaStorage.gorde(player);
+            if(gorde){
+              gordeTestua.innerHTML=`<p>${player.izena} ${player.abizena} gorde da`
+            }else{
+              gordeTestua.innerHTML="<p>Badago gordeta<p>"
+            }
           });
         });
       });
