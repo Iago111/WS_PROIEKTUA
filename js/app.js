@@ -1,9 +1,10 @@
-const ATALAK = ['hasiera', 'bilatzaile', 'bilduma', 'kudeatuBilduma'];
+const ATALAK = ['hasiera', 'bilatzaile', 'bilduma', 'kudeatuBilduma', 'estatistikak'];
 
 const HASIERATZAILEAK = {
   bilatzaile: () => bilatuApi(),
   bilduma: () => {erakutsiBilduma()},
-  kudeatuBilduma: () => {erakutsiBildumaKudeatzailea()}
+  kudeatuBilduma: () => {erakutsiBildumaKudeatzailea()},
+  estatistikak: () => {kalkulatuEstatistikak()}
 };
 function erakutsiBilduma() {
   const izenarekinBilatu = document.getElementById("jokalariaBilaketa");
@@ -147,6 +148,8 @@ function erakutsiAtala(izena) {
     erakutsiBilduma();
   }else if (izena=='kudeatuBilduma'){
     eguneratuKudeatzailea();
+  }else if (izena=='estatistikak'){
+    kalkulatuEstatistikak();
   }
 
   console.log('Clases del contenedor:', atala.className);
@@ -170,6 +173,56 @@ function erakutsiAtala(izena) {
   const boton = document.querySelector(`#menu-nagusia button[data-seccion="${izena}"]`);
   if (boton) boton.classList.add('active');
 }*/
+
+function kalkulatuEstatistikak(){
+  const nireBilduma = bildumaStorage.itemBezalaLortu();
+
+  const guztira = document.getElementById("guztira");
+  const batezBestekoa = document.getElementById("batezBestekoa");
+  const gehienBaloratutako = document.getElementById("gehienBaloratutako");
+  const gutxienBaloratutako = document.getElementById("gutxienBaloratutako");
+  const gehienGolak = document.getElementById("gehienGolak");
+
+  if (!guztira) {
+    return;
+  }
+
+  if (nireBilduma.length === 0) {
+    guztira.textContent = "0";
+    batezBestekoa.textContent = "0";
+    gehienBaloratutako.textContent = "Ez dago jokalaririk";
+    gutxienBaloratutako.textContent = "Ez dago jokalaririk";
+    gehienGolak.textContent = "Ez dago jokalaririk";
+    return;
+  }
+  //Elem kop
+  guztira.textContent = nireBilduma.length.toString();
+  //BB balorazioa
+  const baturaTotala = nireBilduma.reduce((acc, jokalaria) => acc + Number(jokalaria.balorazioa), 0);
+  const batezBestekoaBalioa = baturaTotala / nireBilduma.length;
+  batezBestekoa.textContent = batezBestekoaBalioa.toFixed(2);
+  // Balorazio onena eta txarrena
+  const onena = nireBilduma.reduce((max, jokalaria) => Number(jokalaria.balorazioa) > Number(max.balorazioa) ? jokalaria : max, nireBilduma[0]);
+  const txarrena = nireBilduma.reduce((min, jokalaria) => Number(jokalaria.balorazioa) < Number(min.balorazioa) ? jokalaria : min, nireBilduma[0]);
+
+  gehienBaloratutako.textContent = `${onena.izena} ${onena.abizena} (${onena.balorazioa})`;
+  gutxienBaloratutako.textContent = `${txarrena.izena} ${txarrena.abizena} (${txarrena.balorazioa})`;
+
+  //Gol gehien
+  const jokalariGolak = nireBilduma.reduce((max, jokalaria) => {
+    if (!max.estatistikak) return jokalaria;
+    if (!jokalaria.estatistikak) return max;
+    const maxGolak = max.estatistikak.reduce((acc, x) => acc + (x.goals.total || 0), 0);
+    const jokalariGolak = jokalaria.estatistikak.reduce((acc, x) => acc + (x.goals.total || 0), 0);
+    return jokalariGolak > maxGolak ? jokalaria : max;
+  }, nireBilduma[0]);
+
+  let golTotak = 0;
+  if (jokalariGolak.estatistikak) {
+    golTotak = jokalariGolak.estatistikak.reduce((acc, x) => acc + (x.goals.total || 0), 0);
+  }
+  gehienGolak.textContent = `${jokalariGolak.izena} ${jokalariGolak.abizena} (${golTotak})`;
+}
 
 async function jaurtiApp() {
   await Promise.all(ATALAK.map(atalaKargatu));
