@@ -42,7 +42,7 @@ class Item {
     return `
       <div class="item-card" data-id="${this.cardId ? this.cardId : this.id}">
         <img src="${this.irudia || ""}" alt="${this.izena}" width="80">
-        <h3>${this.izena} ${this.abizena || ""}</h3>
+        <h3>${this.izena} ${this.abizena || ""} ${this.denb}</h3>
         <p>${this.taldea || "Talde ezezaguna"}</p>
         <p>${this.adina || "?"} urte</p>
       </div>
@@ -50,7 +50,7 @@ class Item {
   }
 
   // Jokalariaren informazio xehea
-  toXehetasunHTML() {
+  toXehetasunHTML(gordetaDago) {
     return `
       <div class="xehetasunak">
         <h2>${this.izena} ${this.abizena || ""}</h2>
@@ -87,16 +87,19 @@ class Item {
           <p><strong>Paseak:</strong> ${this.estatistikak.reduce((acc,x)=>{return acc+x.passes.total},0) ?? 0}</p>
           <p><strong>Pase giltzarriak:</strong> ${this.estatistikak.reduce((acc,x)=>{return acc+x.passes.key},0) ?? 0}</p>
           <p><strong>Partidako faltak:</strong> ${this.estatistikak.reduce((acc,x)=>{return acc+x.fouls.committed},0) ?? 0}</p>
-       
-          <label for="nota">Puntuación (1-5):</label>
-          <input type="balorazioa" id="nota" name="nota" min="1" max="5" required>
-          <p></p>
+          
+          <label for="nota">Balorazioa (1-5):</label>
+        
+        ${!gordetaDago ? `<input type="number" id="nota" name="nota" min="1" max="5" required>
+          <p></p>` : `<p>${this.balorazioa}/5</p>`}
+        
           <label for="editor">IRUZKINA</label><br>
-          <textarea id="iruzkina" rows="6" cols="50" placeholder="Iruzkina"></textarea>
+        
+        ${!gordetaDago ? ` <textarea id="iruzkina" rows="6" cols="50" placeholder="Iruzkina"></textarea>
           <p></p>
-          <button type="button" id="gordeBiltegian"> Gorde biltegian</button>
-
-    `;
+          <button type="button" id="gordeBiltegian"> Gorde biltegian</button>` : `<p>${this.iruzkina}</p>`}
+        `
+    ;
   }
 
   // LocalStorage-rako objektua prestatu

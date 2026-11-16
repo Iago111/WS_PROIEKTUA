@@ -6,41 +6,68 @@ const HASIERATZAILEAK = {
   kudeatuBilduma: () => {}
 };
 function erakutsiBilduma() {
-  const itemak = document.getElementById("lista-bilduma");
-  if (!itemak) return; 
+  const izenarekinBilatu = document.getElementById("jokalariaBilaketa");
+  const ordenatuSelect = document.getElementById("Ordenatu"); 
+  const ordenaSelect = document.getElementById("Ordena");     
 
+  izenarekinBilatu.addEventListener("input", aplikatuIragazkiak);
+  ordenatuSelect.addEventListener("change", aplikatuIragazkiak);
+  ordenaSelect.addEventListener("change", aplikatuIragazkiak);
+
+  aplikatuIragazkiak();
+}
+
+function aplikatuIragazkiak() {
   const nireBilduma = bildumaStorage.itemBezalaLortu();
-  const itemXehetasunak = document.getElementById("xehetasun-bilduma");
 
-  if (nireBilduma.length == 0) {
-    itemak.innerHTML = "<p>Oraindik ez duzu item-ik gorde.</p>";
+  const testua = (document.getElementById("jokalariaBilaketa").value || "").toLowerCase();
+  const filtratu = nireBilduma.filter(item =>
+    ((item.izena).toLowerCase()).startsWith(testua) ||
+    (((item.abizena || "")).toLowerCase()).startsWith(testua)
+  );
+
+  const irizpidea = document.getElementById("Ordenatu").value; 
+  const norabidea = document.getElementById("Ordena").value; 
+
+  const ordenatuta =filtratu.sort((a, b) => {
+    let emaitza = 0;
+
+    if (irizpidea === "izena") {
+      emaitza = a.izena.localeCompare(b.izena);
+    } else if (irizpidea === "balorazioa") {
+      emaitza = a.balorazioa - b.balorazioa;
+    } else if (irizpidea === "golak") {
+      const golakA = a.estatistikak.reduce((acc, x) => acc + (x.goals?.total || 0), 0);
+      const golakB = b.estatistikak.reduce((acc, x) => acc + (x.goals?.total || 0), 0);
+      emaitza = golakA - golakB;
+    }
+    
+    return norabidea === "beherantz" ? emaitza : -emaitza;
+  });
+
+  eguneratuBilduma(ordenatuta);
+}
+
+function eguneratuBilduma(bilduma) {
+  const itemak = document.getElementById("lista-bilduma");
+  const itemXehetasunak = document.getElementById("xehetasun-bilduma");
+  if (!itemak) return;
+
+  if (bilduma.length === 0) {
+    itemak.innerHTML = "<p>Ez da emaitzarik aurkitu.</p>";
     return;
   }
 
-  itemak.innerHTML = nireBilduma.map(item => item.toHTML()).join("");
-  nireBilduma.forEach(item => {
-    const datuak = itemak.querySelector(`[data-id="${item.cardId || item.id}"]`);
-    if (datuak) {
-      datuak.addEventListener("click", function() {
-        itemXehetasunak.innerHTML = item.toXehetasunHTML();
-      });
-    }
-  });
+  itemak.innerHTML = bilduma.map(item => item.toHTML()).join("");
 
-  const izenarekinBilatu = document.getElementById("jokalariaBilaketa")
-  izenarekinBilatu.addEventListener("input", function(){
-    const testua = izenarekinBilatu.value.toLowerCase();
-    const filtratu = nireBilduma.filter(item=>((item.izena).toLowerCase()).startsWith(testua) || ((item.abizena || "").toLowerCase()).startsWith(testua))
-    itemak.innerHTML = filtratu.map(item => item.toHTML()).join("");
-    filtratu.forEach(item => {
+  bilduma.forEach(item => {
     const datuak = itemak.querySelector(`[data-id="${item.cardId || item.id}"]`);
     if (datuak) {
-      datuak.addEventListener("click", function() {
-        itemXehetasunak.innerHTML = item.toXehetasunHTML();
+      datuak.addEventListener("click", function () {
+        itemXehetasunak.innerHTML = item.toXehetasunHTML(true);
       });
     }
   });
-  })
 }
 
 async function atalaKargatu(izena) {

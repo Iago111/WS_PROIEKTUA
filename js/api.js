@@ -70,7 +70,7 @@ async function bilatuApi() {
         const datuak = document.querySelector(`[data-id="${player.cardId}"]`);
         
         datuak.addEventListener("click", function() {
-          jokalariDatuak.innerHTML = player.toXehetasunHTML();
+          jokalariDatuak.innerHTML = player.toXehetasunHTML(false);
           
           const gordetzekoBotoia = document.getElementById("gordeBiltegian");
           const balorazioa = document.getElementById("nota");
