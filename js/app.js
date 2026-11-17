@@ -1,10 +1,11 @@
-const ATALAK = ['hasiera', 'bilatzaile', 'bilduma', 'kudeatuBilduma', 'estatistikak'];
+const ATALAK = ['hasiera', 'bilatzaile', 'bilduma', 'kudeatuBilduma', 'estatistikak', 'ezarpenak'];
 
 const HASIERATZAILEAK = {
   bilatzaile: () => bilatuApi(),
   bilduma: () => {erakutsiBilduma()},
   kudeatuBilduma: () => {erakutsiBildumaKudeatzailea()},
-  estatistikak: () => {kalkulatuEstatistikak()}
+  estatistikak: () => {kalkulatuEstatistikak()},
+  ezarpenak: () => ezarpenakHasieratu()
 };
 function erakutsiBilduma() {
   const izenarekinBilatu = document.getElementById("jokalariaBilaketa");
@@ -68,6 +69,20 @@ function eguneratuBilduma(bilduma) {
         itemXehetasunak.innerHTML = item.toXehetasunHTML(true);
       });
     }
+  });
+}
+
+function gaiaAplikatu(iluna) {
+  document.body.classList.toggle('iluna', iluna);
+}
+
+function ezarpenakHasieratu() {
+  const etengailua = document.getElementById('modu-iluna');
+  etengailua.checked = localStorage.getItem('gaia') === 'iluna';
+
+  etengailua.addEventListener('change', () => {
+    gaiaAplikatu(etengailua.checked);
+    localStorage.setItem('gaia', etengailua.checked ? 'iluna' : 'argia');
   });
 }
 
@@ -235,6 +250,7 @@ function kalkulatuEstatistikak(){
 }
 
 async function jaurtiApp() {
+  gaiaAplikatu(localStorage.getItem('gaia') === 'iluna');
   await Promise.all(ATALAK.map(atalaKargatu));
   erakutsiAtala('hasiera');
 }

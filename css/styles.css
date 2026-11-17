@@ -64,6 +64,12 @@ main {
   margin: 0;
 }
 
+body.iluna {
+  background: #1e1e1e;
+  color: #eee;
+  color-scheme: dark;
+}
+
 .atala {
   display: none;
 }
