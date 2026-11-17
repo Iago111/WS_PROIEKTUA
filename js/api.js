@@ -77,8 +77,8 @@ async function bilatuApi() {
           const iruzkina = document.getElementById("iruzkina");
 
           gordetzekoBotoia.addEventListener("click", function() {
-            if (balorazioa.value.trim()===""){
-              balorazioa.value=3
+            if(balorazioa.trim()==="" || Number(balorazioa)>5 || Number(balorazioa)<1){
+              balorazioa="3";
             }
             player.balorazioa = balorazioa.value;
             player.iruzkina = iruzkina.value;
@@ -104,6 +104,7 @@ async function bilatuApi() {
   // EMAITZAK EZABATU
   ezabatzekoBotoia.addEventListener("click", function() {
     emaitzak.innerHTML = "<p>Bilaketa bat gauzatu emaitzak lortzeko</p>";
+    jokalariDatuak.innerHTML="<p>Emaitzetako bat aukeratu, bere xehetasunak bistaratzeko.</p>"
   });
 
   // TALDEAK BILATU
@@ -151,8 +152,8 @@ async function bilatuApi() {
       taldeEmaitzak.querySelectorAll(".item-card").forEach(talde => {
         talde.addEventListener("click", function() {
           taldeBilaketa.value = talde.getAttribute("data-id");
-          taldeEmaitzak.innerHTML = "";
-          taldeEgoera.textContent = "Taldea aukeratuta";
+          const taldeIzena = talde.querySelector("h3").textContent; 
+          taldeEmaitzak.innerHTML = `<p id="talde-egoera"> ${taldeIzena} aukeratu da</p>`;
         });
       });
     } catch (error) {

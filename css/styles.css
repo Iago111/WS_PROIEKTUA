@@ -20,7 +20,15 @@ body {
   flex: 1;
   display: flex;
 }
-
+#bilatzaile-edukia {
+  display: flex;
+  gap: 20px;
+  align-items: flex-start;
+}
+#bilatzaile-edukia .panel {
+  flex: 1;
+  margin-bottom: 0; 
+}
 #menu-nagusia {
   display: flex;
   flex-direction: column;
@@ -93,8 +101,8 @@ main {
 #bilduma-kontrolak,
 #ekintzak-kudeatu{
   display: flex;
-  flex-wrap: wrap;      /* Por si la pantalla es pequeña, que bajen sin romperse */
-  align-items: center;  /* Los alinea verticalmente al centro */
+  flex-wrap: wrap;      
+  align-items: center; 
   gap: 16px;}
 
 #egoera-bilatzen:empty,
@@ -106,6 +114,7 @@ main {
   border: 1px solid #ccc;
   border-radius: 6px;
   padding: 12px;
+  margin-bottom: 16px;
 }
 
 .panel h3 {

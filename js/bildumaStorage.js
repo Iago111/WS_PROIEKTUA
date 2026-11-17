@@ -16,6 +16,9 @@ class bildumaStorage {
     if(!aurkitua){
       bilduma.push(item.toStorageObject())
       localStorage.setItem(BILDUMA_GAKOA, JSON.stringify(bilduma))
+      return true
+    }else{
+      return false
     }
   }
 

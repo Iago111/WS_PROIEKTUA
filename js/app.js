@@ -150,7 +150,7 @@ function erakutsiAtala(izena) {
     eguneratuKudeatzailea();
   }else if (izena=='estatistikak'){
     kalkulatuEstatistikak();
-  }
+  } 
 
   console.log('Clases del contenedor:', atala.className);
   console.log('Contenido:', atala.innerHTML);
