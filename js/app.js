@@ -179,6 +179,7 @@ function kalkulatuEstatistikak(){
 
   const guztira = document.getElementById("guztira");
   const batezBestekoa = document.getElementById("batezBestekoa");
+  const banaketa = document.getElementById("banaketa");
   const gehienBaloratutako = document.getElementById("gehienBaloratutako");
   const gutxienBaloratutako = document.getElementById("gutxienBaloratutako");
   const gehienGolak = document.getElementById("gehienGolak");
@@ -207,7 +208,16 @@ function kalkulatuEstatistikak(){
 
   gehienBaloratutako.textContent = `${onena.izena} ${onena.abizena} (${onena.balorazioa})`;
   gutxienBaloratutako.textContent = `${txarrena.izena} ${txarrena.abizena} (${txarrena.balorazioa})`;
-
+  //Banaketa
+  
+  const baneketaEgin = nireBilduma.reduce((acc, jokalaria) => {
+    const balorazioa = Number(jokalaria.balorazioa);
+    if (balorazioa >= 1 && balorazioa <= 5) {
+      acc[balorazioa] = (acc[balorazioa] || 0) + 1;
+    }
+    return acc;
+  }, {1: 0, 2: 0, 3: 0, 4: 0, 5: 0});
+  banaketa.textContent = `1: ${baneketaEgin[1]}, 2: ${baneketaEgin[2]}, 3: ${baneketaEgin[3]}, 4: ${baneketaEgin[4]}, 5: ${baneketaEgin[5]}`;
   //Gol gehien
   const jokalariGolak = nireBilduma.reduce((max, jokalaria) => {
     if (!max.estatistikak) return jokalaria;
