@@ -60,7 +60,7 @@ function eguneratuBilduma(bilduma) {
     return;
   }
 
-  itemak.innerHTML = bilduma.map(item => item.toHTML()).join("");
+  itemak.innerHTML = bilduma.map(item => item.toHTML(true)).join("");
 
   bilduma.forEach(item => {
     const datuak = itemak.querySelector(`[data-id="${item.cardId || item.id}"]`);

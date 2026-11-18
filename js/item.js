@@ -38,13 +38,14 @@ class Item {
   }
 
   // Bilaketako txartela
-  toHTML() {
+  toHTML(balorazioa) {
     return `
       <div class="item-card" data-id="${this.cardId ? this.cardId : this.id}">
         <img src="${this.irudia || ""}" alt="${this.izena}" width="80">
         <h3>${this.izena} ${this.abizena || ""} ${this.denb || ""}</h3>
         <p>${this.taldea || ""}</p>
         <p>${this.adina ? `${this.adina} urte` : ""}</p>
+        ${balorazioa ? `<p><Strong>Balorazioa:</Strong> ${this.balorazioa}/5</p>`: ""}
       </div>
     `;
   }

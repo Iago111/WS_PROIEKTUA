@@ -66,7 +66,7 @@ async function bilatuApi() {
       data.response.map(player => {
         return new Item({...denboraldiaUrtea, ...player.player, estadistikak: player.statistics});
       }).forEach(player => {
-        emaitzak.insertAdjacentHTML("beforeend", player.toHTML());
+        emaitzak.insertAdjacentHTML("beforeend", player.toHTML(false));
         const datuak = document.querySelector(`[data-id="${player.cardId}"]`);
         
         datuak.addEventListener("click", function() {
@@ -146,7 +146,7 @@ async function bilatuApi() {
       taldeData.response.sort((a,b) => b.venue.capacity - a.venue.capacity).slice(0,10).map(talde => {
         return new Item(talde.team);
       }).forEach(talde => {
-        taldeEmaitzak.insertAdjacentHTML("beforeend", talde.toHTML());
+        taldeEmaitzak.insertAdjacentHTML("beforeend", talde.toHTML(false));
       });
 
       taldeEmaitzak.querySelectorAll(".item-card").forEach(talde => {
