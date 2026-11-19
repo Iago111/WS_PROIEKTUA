@@ -15,7 +15,10 @@ async function bilatuApi() {
   const egoera = document.getElementById("egoera-bilatzen");
   const emaitzak = document.getElementById("emaitzak-bilaketa");
   const jokalariDatuak = document.getElementById("xehetasunak-item"); 
-  const ezabatzekoBotoia = document.getElementById("emaitzak_ezabatu");
+  const ezabatzekoBotoia = document.getElementById("emaitzak-ezabatu");
+
+  const harrituBotoia = document.getElementById("harritu-botoia");
+  const harrituEgoera = document.getElementById("harritu-egoera");
 
   // HISTORIALA KARGATU
   bildumaStorage.eguneratuDatalista('historiala_jokalariak', 'jokalari-historiala');
@@ -84,8 +87,8 @@ async function bilatuApi() {
           const iruzkina = document.getElementById("iruzkina");
 
           gordetzekoBotoia.addEventListener("click", function() {
-            if(balorazioa.trim()==="" || Number(balorazioa)>5 || Number(balorazioa)<1){
-              balorazioa="3";
+            if(balorazioa.value.trim()==="" || Number(balorazioa.value)>5 || Number(balorazioa.value)<1){
+              balorazioa.value="3";
             }
             player.balorazioa = balorazioa.value;
             player.iruzkina = iruzkina.value;
@@ -169,6 +172,53 @@ async function bilatuApi() {
     } catch (error) {
       console.log("error:", error);
       taldeEgoera.textContent = "Errore bat gertatu da.";
+    }
+  });
+
+  //HARRITU NAZAZU
+  const jokalariakID = [154, 874, 1100, 278, 184, 15795, 762, 629, 521, 1460];
+  const denboraldiak = [2022, 2023, 2024];
+
+  harrituBotoia.addEventListener("click", async function () {
+    const randomId = jokalariakID[Math.floor(Math.random() * jokalariakID.length)];
+    const randomDenboraldi = denboraldiak[Math.floor(Math.random() * denboraldiak.length)];
+
+    harrituEgoera.textContent = `Ausazko jokalaria bilatzen...`;
+
+    try {
+      const erantzuna = await fetch(
+        `${API_BASE_URL}/players?id=${randomId}&season=${randomDenboraldi}`,
+        {
+          method: "GET",
+          headers: {
+            "x-apisports-key": API_KEY
+          }
+        }
+      );
+
+      const data = await erantzuna.json();
+
+      const emaitza = data.response[0];
+      const player = new Item({
+        season: randomDenboraldi,
+        ...emaitza.player,
+        estadistikak: emaitza.statistics,
+        balorazioa: "3",
+        iruzkina: "Harritu nazazu bidez gehituta"
+      });
+
+      emaitzak.innerHTML = player.toHTML(false);
+      jokalariDatuak.innerHTML = player.toXehetasunHTML(true);
+
+      const gordeta = bildumaStorage.gorde(player);
+      if (gordeta) {
+        harrituEgoera.textContent = `${player.izena} ${player.abizena || ""} (${randomDenboraldi}) bilduman gorde da.`;
+      } else {
+        harrituEgoera.textContent = `${player.izena} ${player.abizena || ""} (${randomDenboraldi}) jada bilduman zegoen.`;
+      }
+    } catch (error) {
+      console.error("error", error);
+      harrituEgoera.textContent = "Errore bat gertatu da.";
     }
   });
 }
