@@ -3,7 +3,8 @@
 <section id="bilaketa" class="panel">
   <h3>Bilaketa</h3>
   <form id="form-bilatzaile">
-    <input type="text" id="jokalari-bilaketa" autocomplete="off" placeholder="Jokalariaren Izena" required>
+    <input type="text" id="jokalari-bilaketa" list="jokalari-historiala" autocomplete="off" placeholder="Jokalariaren Izena" required>
+    <datalist id="jokalari-historiala"></datalist>
     <input type="number" id="denboraldi-bilaketa" autocomplete="off" placeholder="Adb: 2022" min="2022", max="2024" required>
     <input type="number" id="talde-bilaketa-jokalaria" autocomplete="off" placeholder="Aukeratu taldea behean" required>
     <button type="submit">Bilatu</button>
@@ -16,7 +17,8 @@
 <section id="talde-bilaketa-section" class="panel">
   <h3>Talde bilaketa</h3>
   <form id="form-bilatzaile-taldea">
-    <input type="text" id="talde-bilaketa" autocomplete="off" placeholder="Taldea..." required>
+    <input type="text" id="talde-bilaketa" list="talde-historiala" autocomplete="off" placeholder="Taldea..." required>
+    <datalist id="talde-historiala"></datalist>
     <button type="submit">Bilatu</button>
   </form>
   <p id="egoera-bilatzen-taldea"></p>

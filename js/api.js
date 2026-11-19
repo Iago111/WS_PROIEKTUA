@@ -17,6 +17,10 @@ async function bilatuApi() {
   const jokalariDatuak = document.getElementById("xehetasunak-item"); 
   const ezabatzekoBotoia = document.getElementById("emaitzak_ezabatu");
 
+  // HISTORIALA KARGATU
+  bildumaStorage.eguneratuDatalista('historiala_jokalariak', 'jokalari-historiala');
+  bildumaStorage.eguneratuDatalista('historiala_taldeak', 'talde-historiala');
+
   // JOKALARIAK BILATU
   jokalariFormularioa.addEventListener("submit", async function(e) {
     e.preventDefault();
@@ -33,6 +37,9 @@ async function bilatuApi() {
       egoera.textContent = "Lehenengo talde bat aukeratu";
       return;
     }
+
+    bildumaStorage.gordetakoHistoriala('historiala_jokalariak', jokalaria);
+    bildumaStorage.eguneratuDatalista('historiala_jokalariak', 'jokalari-historiala')
 
     egoera.textContent = "Bilatzen...";
     
@@ -117,6 +124,9 @@ async function bilatuApi() {
       taldeEgoera.textContent = "Sartu talde baten izena";
       return;
     }
+
+    bildumaStorage.gordetakoHistoriala('historiala_taldeak', taldea);
+    bildumaStorage.eguneratuDatalista('historia_taldeak', 'talde-historia');
 
     taldeEgoera.textContent = "Taldea bilatzen...";
     taldeEmaitzak.innerHTML = "";

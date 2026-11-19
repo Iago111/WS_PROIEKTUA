@@ -46,4 +46,35 @@ class bildumaStorage {
   static hustu() {
     localStorage.clear();
   }
+
+  static lortuHistoriala(gakoa) {
+    const historiala = localStorage.getItem(gakoa);
+    if(historiala) {
+      return JSON.parse(historiala);
+    } else{
+      return [];
+    }
+  }
+
+  static gordetakoHistoriala(gakoa, balioa) {
+    if (!balioa || balioa.trim() === "") return;
+    let historiala = bildumaStorage.lortuHistoriala(gakoa);
+
+    //ez errepikatzeko
+    historiala = historiala.filter(item => item != balioa);
+    historiala.unshift(balioa);
+
+    if(historiala.length > 10) {
+      historiala.pop();
+    }
+
+    localStorage.setItem(gakoa, JSON.stringify(historiala));
+  }
+
+  static eguneratuDatalista(gakoa, datalistID) {
+    const datalist = document.getElementById(datalistID);
+    if(!datalist) return;
+    const historiala = bildumaStorage.lortuHistoriala(gakoa);
+    datalist.innerHTML = historiala.map(item => `<option value="${item}"></option>`).join("");
+  }
 }
