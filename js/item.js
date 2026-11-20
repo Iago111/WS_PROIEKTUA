@@ -7,7 +7,7 @@ class Item {
     this.denb=ApiDatuak.season
     // Informazio orokorra
     this.id = ApiDatuak.id;
-    this.izena = ApiDatuak.name;
+    this.izena = ApiDatuak.firstname || ApiDatuak.name;
     this.abizena = ApiDatuak.lastname;
     this.irudia = ApiDatuak.photo || ApiDatuak.logo;
     this.adina = ApiDatuak.age;
@@ -107,14 +107,14 @@ class Item {
   const unekoId = this.cardId
   return `<div class="kudeatu" data-id="${unekoId}">
     <h2>${this.izena} ${this.abizena || ""} ${this.denb || ""}</h2>
-    <image src="${this.irudia}">
+    <img src="${this.irudia}" alt="${this.izena}">
     <p><strong>Balorazioa:</strong></p>
     <input type="number" id="nota-${unekoId}" min="1" max="5" value="${this.balorazioa}"> 
     <p><strong>Iruzkina:</strong></p>
     <textarea id="iruzkina-${unekoId}" rows="6" cols="50" placeholder="Iruzkina">${this.iruzkina}</textarea>
     <button type="button" id="gorde-${unekoId}">Gorde Aldaketak</button>
     <button type="button" id="ezabatu-${unekoId}">Ezabatu Karta</button>
-    <p id="text-${unekoId}"><p>
+    <p id="text-${unekoId}"></p>
   </div>`;
   }
   // LocalStorage-rako objektua prestatu

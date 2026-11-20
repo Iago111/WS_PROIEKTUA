@@ -44,7 +44,11 @@ function aplikatuIragazkiak() {
       emaitza = golakA - golakB;
     }
     
-    return norabidea === "beherantz" ? emaitza : -emaitza;
+    if(norabidea==="gorantz"){
+      return emaitza;
+    }else{
+      return -emaitza;
+    } 
   });
 
   eguneratuBilduma(ordenatuta);
@@ -105,6 +109,27 @@ async function atalaKargatu(izena) {
 function erakutsiBildumaKudeatzailea(){
   const hustuBotoia = document.getElementById("botoia-hustu")
   hustuBotoia.addEventListener("click",hustuBiltegia)
+
+  const lista = document.getElementById("lista-kudeatu")
+  lista.addEventListener("click",function(event){
+
+    const kromoa = event.target.closest(".kudeatu")
+    if(!kromoa) return
+    const unekoId = kromoa.dataset.id
+    if(event.target.id === `gorde-${unekoId}`){
+      const nota = lista.querySelector(`#nota-${unekoId}`)
+      if(nota.value.trim()==="" || Number(nota.value)>5 || Number(nota.value)<1){
+        nota.value="3";
+      }
+      const iruzkina=lista.querySelector(`#iruzkina-${unekoId}`).value
+      bildumaStorage.eguneratu(unekoId,nota.value,iruzkina)
+      lista.querySelector(`#text-${unekoId}`).textContent=`${kromoa.querySelector('h2').textContent} eguneratu da`
+    }
+    if(event.target.id === `ezabatu-${unekoId}`){
+      bildumaStorage.ezabatu(unekoId)
+      eguneratuKudeatzailea()
+    }
+  })
   eguneratuKudeatzailea()
 }
 function eguneratuKudeatzailea(){
@@ -115,30 +140,10 @@ function eguneratuKudeatzailea(){
     return
   }
   lista.innerHTML = bilduma.map(item=>item.toBildumaKudeatu()).join("")
-
-  bilduma.forEach(item=>{
-    const unekoId=item.cardId;
-    const gordeBotoia=lista.querySelector(`#gorde-${unekoId}`)
-
-    gordeBotoia.addEventListener("click", function(){
-      const nota =lista.querySelector(`#nota-${unekoId}`)
-      if(nota.value.trim()==="" || Number(nota.value)>5 || Number(nota.value)<1){
-        nota.value="3";
-      }
-      const iruzkina=lista.querySelector(`#iruzkina-${unekoId}`).value
-      bildumaStorage.eguneratu(unekoId,nota.value,iruzkina)
-      lista.querySelector(`#text-${unekoId}`).textContent=`${item.izena} ${item.abizena} eguneratu da`
-    }) 
-
-    const ezabatuBotoia=lista.querySelector(`#ezabatu-${unekoId}`)
-
-    ezabatuBotoia.addEventListener("click",function(){
-      bildumaStorage.ezabatu(unekoId)
-      eguneratuKudeatzailea()
-    })
-  })
 }
+
 function hustuBiltegia(){
+  if (!confirm("Ziur zaude bilduma osoa ezabatu nahi duzula?")) return
   bildumaStorage.hustu()
   eguneratuKudeatzailea()
 }
@@ -261,7 +266,6 @@ async function jaurtiApp() {
   erakutsiAtala(boton.dataset.seccion);
 });*/
 document.getElementById('menu-nagusia').addEventListener('click', (event) => {
-  console.log('Click detectado');
   const boton = event.target.closest('button[data-seccion]');
   if (!boton) return;
 

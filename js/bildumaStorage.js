@@ -44,7 +44,7 @@ class bildumaStorage {
   }
 
   static hustu() {
-    localStorage.clear();
+    localStorage.removeItem(BILDUMA_GAKOA);
   }
 
   static lortuHistoriala(gakoa) {
@@ -61,8 +61,8 @@ class bildumaStorage {
     let historiala = bildumaStorage.lortuHistoriala(gakoa);
 
     //ez errepikatzeko
-    historiala = historiala.filter(item => item != balioa);
-    historiala.unshift(balioa);
+    historiala = historiala.filter(item => item.balioa != balioa);
+    historiala.unshift({ balioa: balioa, data: new Date().toISOString() });
 
     if(historiala.length > 10) {
       historiala.pop();
@@ -75,6 +75,6 @@ class bildumaStorage {
     const datalist = document.getElementById(datalistID);
     if(!datalist) return;
     const historiala = bildumaStorage.lortuHistoriala(gakoa);
-    datalist.innerHTML = historiala.map(item => `<option value="${item}"></option>`).join("");
+    datalist.innerHTML = historiala.map(item => `<option value="${item.balioa}">${new Date(item.data).toLocaleDateString()}</option>`).join("");
   }
 }

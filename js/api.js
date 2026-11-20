@@ -45,6 +45,8 @@ async function bilatuApi() {
     bildumaStorage.eguneratuDatalista('historiala_jokalariak', 'jokalari-historiala')
 
     egoera.textContent = "Bilatzen...";
+    emaitzak.innerHTML = "";
+
     
     try {
       const erantzuna = await fetch(
@@ -80,6 +82,8 @@ async function bilatuApi() {
         const datuak = document.querySelector(`[data-id="${player.cardId}"]`);
         
         datuak.addEventListener("click", function() {
+          emaitzak.querySelectorAll(".item-card").forEach(t => t.classList.remove("hautatua"));
+          datuak.classList.add("hautatua");
           jokalariDatuak.innerHTML = player.toXehetasunHTML(false);
           
           const gordetzekoBotoia = document.getElementById("gordeBiltegian");
@@ -129,7 +133,7 @@ async function bilatuApi() {
     }
 
     bildumaStorage.gordetakoHistoriala('historiala_taldeak', taldea);
-    bildumaStorage.eguneratuDatalista('historia_taldeak', 'talde-historia');
+    bildumaStorage.eguneratuDatalista('historiala_taldeak', 'talde-historiala');
 
     taldeEgoera.textContent = "Taldea bilatzen...";
     taldeEmaitzak.innerHTML = "";
