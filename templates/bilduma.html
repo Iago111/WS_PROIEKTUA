@@ -1,40 +1,53 @@
-<h2>Nire Bilduma</h2>
+<h2>🃏 Nire Kromo Albuma</h2>
 
-<div id="bilduma-kontrolak" class="panel">
-      <h4>Bilatu izenarekin</h4>
-      <div id="input-bilaketa">
-        <input id="jokalariaBilaketa">
-      </div>
-      <div id="Ordenatu-commbox">
-        <label for="Ordenatu-Jokalaria">Ordenatu</label>
-        <select id="Ordenatu" name="jokalaria">
-          <option value="izena">Izena</option>
-          <option value="balorazioa" selected>Balorazioa</option>
-          <option value="golak">Golak</option>
-         </select>
-       </div>
-       <div id="Ordena-Jokalaria">
-       <label>Ordena</label>
-       <select id="Ordena" name="Ordena-jarri">
-          <option value="gorantz">Gorantz</option>
-          <option value="beherantz">Beherantz</option>
-       </select>
-       </div>
+<div id="bilduma-kontrolak" class="panel kontrol-barra-moderna">
+  <div class="kontrol-taldea bilaketa-kaxa">
+    <label for="jokalariaBilaketa">🔍 Bilatu bilduman</label>
+    <div class="input-ikonoarekin">
+      <input type="text" id="jokalariaBilaketa" placeholder="Izena, abizena edo taldea...">
+    </div>
+  </div>
+
+  <div id="Ordenatu-commbox" class="kontrol-taldea">
+    <label for="Ordenatu">📊 Ordenatu honen arabera</label>
+    <select id="Ordenatu" name="jokalaria">
+      <option value="izena">🔤 Izena (A - Z)</option>
+      <option value="balorazioa" selected>⭐ Balorazioa (Izarrak)</option>
+      <option value="golak">⚽ Golak guztira</option>
+    </select>
+  </div>
+
+  <div id="Ordena-Jokalaria" class="kontrol-taldea">
+    <label for="Ordena">⇅ Norabidea</label>
+    <select id="Ordena" name="Ordena-jarri">
+      <option value="beherantz" selected>⬇️ Beherantz (Handienetik)</option>
+      <option value="gorantz">⬆️ Gorantz (Txikienetik)</option>
+    </select>
+  </div>
 </div>
 
 <div class="bilduma-edukiak">
   <section id="items-bilduma" class="panel">
-    <h3>Gordetako Item-ak</h3>
-    <div id="lista-bilduma">
-      <p>Oraindik ez duzu item-ik gorde.</p>
+    <h3>Gordetako Kromoak</h3>
+    <div id="lista-bilduma" class="kromo-sareta">
+      <p>Oraindik ez duzu kromorik gorde.</p>
     </div>
   </section>
 
   <div id="panel-bilduma" class="panel">
-    <h3>Item hautatua</h3>
+    <h3>Kromoaren Fitxa</h3>
     <div id="xehetasun-bilduma">
-      <p>Item bat aukeratu bere xehetasunak bistaratzeko.</p>
+      <p>Kromo bat aukeratu bere xehetasunak bistaratzeko.</p>
     </div>
   </div>
-
 </div>
+
+<section id="panel-konparatzailea" class="panel">
+  <div class="konparatzailea-goiburua">
+    <h3>⚔️ Kromo Konparatzailea (Cara a Cara)</h3>
+    <button type="button" id="garbitu-konparaketa" class="botoi-arriskua" style="display: none;">Garbitu hautaketa</button>
+  </div>
+  <div id="konparatzailea-edukia">
+    <p>Markatu bildumako bi kromo edo gehiago (<strong>"Konparatu"</strong> laukitxoa sakatuz) elkarren ondoan alderatzeko.</p>
+  </div>
+</section>

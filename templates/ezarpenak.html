@@ -1,8 +1,46 @@
-<h2>Ezarpenak</h2>
+<h2>🎨 Ezarpenak eta Hobespenak</h2>
 
-<div class="panel">
-  <label>
-    <input type="checkbox" id="modu-iluna">
-    Modu iluna
-  </label>
+<div class="ezarpenak-sareta">
+  <!-- Itxura eta Gaia -->
+  <section class="panel ezarpen-txartela">
+    <h3>🌗 Itxura</h3>
+
+    <div class="ezarpen-lerroa">
+      <div>
+        <strong>Modu Iluna (Champions Gaua)</strong>
+        <p>Aldatu interfazearen kolore iluna eta argiaren artean.</p>
+      </div>
+      <label class="switch-modernoa">
+        <input type="checkbox" id="modu-iluna">
+        <span class="slider"></span>
+      </label>
+    </div>
+  </section>
+
+  <!-- Datuen Segurtasun Kopia -->
+  <section class="panel ezarpen-txartela">
+    <h3>💾 Segurtasun Kopia (JSON)</h3>
+    <p class="ezarpen-deskribapena">Esportatu zure kromo bilduma osoa fitxategi batean gordetzeko edo kargatu aurretik gordetako bilduma bat.</p>
+
+    <div class="ezarpen-botoi-taldea">
+      <button type="button" id="ezarpen-esportatu" class="botoi-nagusia">⬇️ Esportatu Bilduma (.json)</button>
+      <button type="button" id="ezarpen-inportatu" class="botoi-urrea">⬆️ Inportatu Bilduma (.json)</button>
+      <input type="file" id="ezarpen-fitxategia" accept=".json" style="display: none;">
+    </div>
+    <p id="ezarpen-json-mezua" class="egoera-mezua"></p>
+  </section>
+
+  <!-- Albumaren Informazioa eta Garbiketa -->
+  <section class="panel ezarpen-txartela">
+    <h3>🛠️ Biltegiratzea eta Datuak</h3>
+    <div class="ezarpen-info-kaxa">
+      <div><span>Gordetako kromoak:</span> <strong id="ezarpen-kromo-kop">0</strong></div>
+      <div><span>Bilaketa historia:</span> <strong id="ezarpen-historia-kop">0 sarrera</strong></div>
+    </div>
+
+    <div class="ezarpen-botoi-taldea" style="margin-top: 14px;">
+      <button type="button" id="ezarpen-garbitu-historia" class="botoi-gardena-iluna">🧹 Garbitu Bilaketa Historia</button>
+      <button type="button" id="ezarpen-ezabatu-dena" class="botoi-arriskua">⚠️ Ezabatu Datu Guztiak</button>
+    </div>
+  </section>
 </div>

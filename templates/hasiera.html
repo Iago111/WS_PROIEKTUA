@@ -1,5 +1,109 @@
-<h2>Hasiera</h2>
+<div class="portada-albuma">
+  <!-- BANNER NAGUSIA -->
+  <div class="portada-hero">
+    <div class="portada-hero-edukia">
+      <div class="portada-etiketak">
+        <span class="portada-txapa">🏆 EDIZIO OFIZIALA · 2022–2024</span>
+        <span class="portada-txapa-iluna" id="hasiera-maila-txapa">Maila: Hasiberria</span>
+      </div>
+      <h2>⚽ ZURE FUTBOL KROMO ALBUMA</h2>
+      <p>Bildumatu munduko izar nagusiak, lortu 5★-ko Urrezko Kondairak, osatu zure hamaikako ideala eta alderatu jokalarien estatistikak.</p>
 
-<div class="panel">
-  <p>Ongi Etorria. Aplikazio honek item-ak, API publiko batean, bilatzea eta bilduma pertsonalean gordetzea ahalbidetzen du.</p>
+      <!-- Bildumaren aurrerapen-barra -->
+      <div class="portada-aurrerapena">
+        <div class="aurrerapen-testua">
+          <span>Bildumaren aurrerapena (Kondaira mailarako)</span>
+          <strong id="hasiera-aurrerapen-testua">0 / 15 kromo</strong>
+        </div>
+        <div class="aurrerapen-barra-atzekoa">
+          <div id="hasiera-aurrerapen-barra" class="aurrerapen-barra-aurrekoa" style="width: 0%;"></div>
+        </div>
+      </div>
+
+      <div class="portada-botoiak">
+        <button type="button" class="botoi-urrea" onclick="erakutsiAtala('bilatzaile')">🔍 Bilatu Jokalariak</button>
+        <button type="button" class="botoi-nagusia" onclick="erakutsiAtala('bilduma')">🃏 Ireki Nire Albuma</button>
+        <button type="button" class="botoi-gardena" onclick="erakutsiAtala('estatistikak')">📊 Estatistikak</button>
+      </div>
+    </div>
+
+    <!-- Eskuineko Kromo Nabarmendua -->
+    <div class="portada-hero-kromo">
+      <div class="portada-kromo-titulua">
+        <span>⭐ ALBUMeko IZARRA</span>
+        <button type="button" id="aldatu-kromo-nabarmendua" title="Beste kromo bat erakutsi">🔄</button>
+      </div>
+      <div id="hasiera-kromo-nabarmendua" class="portada-kromo-lekua">
+        <div class="kromo-hutsik-txartela">
+          <span>🃏</span>
+          <p>Albuma hutsik dago.<br>Gehitu zure lehen kromoa!</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 4 DATU NAGUSIAK -->
+  <div class="portada-kpi-sareta">
+    <div class="panel kpi-txartela">
+      <span class="kpi-ikonoa">🃏</span>
+      <div>
+        <strong id="hasiera-guztira">0</strong>
+        <span>Gordetako Kromoak</span>
+      </div>
+    </div>
+
+    <div class="panel kpi-txartela">
+      <span class="kpi-ikonoa">👑</span>
+      <div>
+        <strong id="hasiera-urrea">0</strong>
+        <span>Urrezkoak (5★)</span>
+      </div>
+    </div>
+
+    <div class="panel kpi-txartela">
+      <span class="kpi-ikonoa">⚽</span>
+      <div>
+        <strong id="hasiera-golak">0</strong>
+        <span>Golak Guztira</span>
+      </div>
+    </div>
+
+    <div class="panel kpi-txartela">
+      <span class="kpi-ikonoa">⭐</span>
+      <div>
+        <strong id="hasiera-batezbestekoa">0.00</strong>
+        <span>Batez Besteko Nota</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- BITRINA: TOP 3 KROMOAK -->
+  <section class="panel">
+    <div class="konparatzailea-goiburua">
+      <h3>🏅 Zure Bildumako Top 3 Kromoak</h3>
+      <button type="button" class="botoi-nagusia" onclick="erakutsiAtala('bilduma')">Ikusi denak →</button>
+    </div>
+    <div id="hasiera-top-kromoak" class="portada-top-sareta">
+      <p>Oraindik ez dago kromorik bitrinan erakusteko.</p>
+    </div>
+  </section>
+
+  <!-- NOLA FUNTZIONATZEN DU (3 PAUSO) -->
+  <div class="portada-pausoak">
+    <div class="panel pauso-txartela">
+      <span class="pauso-zenbakia">1</span>
+      <h4>Bilatu eta Fitxatu</h4>
+      <p>Sartu <strong>Bilatzailean</strong>, aukeratu talde bat eta fitxatu 2022–2024 denboraldiko jokalariak.</p>
+    </div>
+    <div class="panel pauso-txartela">
+      <span class="pauso-zenbakia">2</span>
+      <h4>Lortu Kromo Bereziak</h4>
+      <p>Baloratu jokalariak 1etik 5era: <strong>Brontzea</strong> (1-3★), <strong>Zilarra</strong> (4★) eta <strong>Urrezko Kondaira</strong> (5★).</p>
+    </div>
+    <div class="panel pauso-txartela">
+      <span class="pauso-zenbakia">3</span>
+      <h4>Konparatu eta Zelairatu</h4>
+      <p>Alderatu jokalariak aurrez aurre eta osatu zure <strong>1-4-3-3 Hamaikako Ideala</strong> zelaian.</p>
+    </div>
+  </div>
 </div>

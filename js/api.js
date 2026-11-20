@@ -3,10 +3,10 @@ const API_KEY = "d15b472138b0586ea6366674402e1aaf";
 
 async function bilatuApi() {
   const jokalariFormularioa = document.getElementById("form-bilatzaile");
-  const jokalariInput = document.getElementById("jokalari-bilaketa"); 
+  const jokalariInput = document.getElementById("jokalari-bilaketa");
   const denboraldiBilaketa = document.getElementById("denboraldi-bilaketa");
   const taldeBilaketa = document.getElementById("talde-bilaketa-jokalaria");
-  
+
   const taldeFormularioa = document.getElementById("form-bilatzaile-taldea");
   const taldeEgoera = document.getElementById("talde-egoera");
   const taldeEmaitzak = document.getElementById("talde-emaitzak-bilaketa");
@@ -14,7 +14,7 @@ async function bilatuApi() {
 
   const egoera = document.getElementById("egoera-bilatzen");
   const emaitzak = document.getElementById("emaitzak-bilaketa");
-  const jokalariDatuak = document.getElementById("xehetasunak-item"); 
+  const jokalariDatuak = document.getElementById("xehetasunak-item");
   const ezabatzekoBotoia = document.getElementById("emaitzak-ezabatu");
 
   const harrituBotoia = document.getElementById("harritu-botoia");
@@ -25,9 +25,9 @@ async function bilatuApi() {
   bildumaStorage.eguneratuDatalista('historiala_taldeak', 'talde-historiala');
 
   // JOKALARIAK BILATU
-  jokalariFormularioa.addEventListener("submit", async function(e) {
+  jokalariFormularioa.addEventListener("submit", async function (e) {
     e.preventDefault();
-        
+
     const jokalaria = jokalariInput.value.trim();
     const denboraldia = denboraldiBilaketa.value;
 
@@ -42,19 +42,18 @@ async function bilatuApi() {
     }
 
     bildumaStorage.gordetakoHistoriala('historiala_jokalariak', jokalaria);
-    bildumaStorage.eguneratuDatalista('historiala_jokalariak', 'jokalari-historiala')
+    bildumaStorage.eguneratuDatalista('historiala_jokalariak', 'jokalari-historiala');
 
     egoera.textContent = "Bilatzen...";
     emaitzak.innerHTML = "";
 
-    
     try {
       const erantzuna = await fetch(
         `${API_BASE_URL}/players?search=${encodeURIComponent(jokalaria)}&season=${denboraldia}&team=${taldeBilaketa.value}`,
         {
           method: "GET",
           headers: {
-            'x-apisports-key': API_KEY 
+            'x-apisports-key': API_KEY
           }
         }
       );
@@ -73,39 +72,42 @@ async function bilatuApi() {
       }
 
       const denboraldiaUrtea = data.parameters;
-      console.log(data);
-      
+
       data.response.map(player => {
-        return new Item({...denboraldiaUrtea, ...player.player, estadistikak: player.statistics});
+        return new Item({ ...denboraldiaUrtea, ...player.player, estadistikak: player.statistics });
       }).forEach(player => {
         emaitzak.insertAdjacentHTML("beforeend", player.toHTML(false));
-        const datuak = document.querySelector(`[data-id="${player.cardId}"]`);
-        
-        datuak.addEventListener("click", function() {
+        const datuak = emaitzak.querySelector(`[data-id="${player.cardId}"]`);
+
+        datuak.addEventListener("click", function () {
           emaitzak.querySelectorAll(".item-card").forEach(t => t.classList.remove("hautatua"));
           datuak.classList.add("hautatua");
           jokalariDatuak.innerHTML = player.toXehetasunHTML(false);
-          
+
           const gordetzekoBotoia = document.getElementById("gordeBiltegian");
           const balorazioa = document.getElementById("nota");
           const iruzkina = document.getElementById("iruzkina");
 
-          gordetzekoBotoia.addEventListener("click", function() {
-            if(balorazioa.value.trim()==="" || Number(balorazioa.value)>5 || Number(balorazioa.value)<1){
-              balorazioa.value="3";
+          gordetzekoBotoia.addEventListener("click", function () {
+            if (balorazioa.value.trim() === "" || Number(balorazioa.value) > 5 || Number(balorazioa.value) < 1) {
+              balorazioa.value = "3";
             }
             player.balorazioa = balorazioa.value;
             player.iruzkina = iruzkina.value;
-            const gordeTestua=document.getElementById("gorde")
-            const gorde =bildumaStorage.gorde(player);
-            if(gorde){
-              gordeTestua.innerHTML=`<p>${player.izena} ${player.abizena} gorde da`
-            }else{
-              gordeTestua.innerHTML="<p>Badago gordeta<p>"
+            const gordeTestua = document.getElementById("gorde");
+            const gorde = bildumaStorage.gorde(player);
+            if (gorde) {
+              gordeTestua.innerHTML = `<p>${player.izena} ${player.abizena || ""} gorde da</p>`;
+            } else {
+              gordeTestua.innerHTML = "<p>Badago gordeta</p>";
             }
           });
         });
       });
+
+      if (typeof aktibatuKromo3DEfektua === "function") {
+        aktibatuKromo3DEfektua(emaitzak);
+      }
 
       egoera.textContent = "";
 
@@ -116,13 +118,13 @@ async function bilatuApi() {
   });
 
   // EMAITZAK EZABATU
-  ezabatzekoBotoia.addEventListener("click", function() {
+  ezabatzekoBotoia.addEventListener("click", function () {
     emaitzak.innerHTML = "<p>Bilaketa bat gauzatu emaitzak lortzeko</p>";
-    jokalariDatuak.innerHTML="<p>Emaitzetako bat aukeratu, bere xehetasunak bistaratzeko.</p>"
+    jokalariDatuak.innerHTML = "<p>Emaitzetako bat aukeratu, bere xehetasunak bistaratzeko.</p>";
   });
 
   // TALDEAK BILATU
-  taldeFormularioa.addEventListener("submit", async function(e) {
+  taldeFormularioa.addEventListener("submit", async function (e) {
     e.preventDefault();
 
     const taldea = taldeInput.value.trim();
@@ -137,7 +139,7 @@ async function bilatuApi() {
 
     taldeEgoera.textContent = "Taldea bilatzen...";
     taldeEmaitzak.innerHTML = "";
-    console.log(taldea);
+
     try {
       const url = `${API_BASE_URL}/teams?search=${encodeURIComponent(taldea)}`;
 
@@ -160,17 +162,17 @@ async function bilatuApi() {
         return;
       }
 
-      taldeData.response.sort((a,b) => b.venue.capacity - a.venue.capacity).slice(0,10).map(talde => {
+      taldeData.response.sort((a, b) => b.venue.capacity - a.venue.capacity).slice(0, 10).map(talde => {
         return new Item(talde.team);
       }).forEach(talde => {
         taldeEmaitzak.insertAdjacentHTML("beforeend", talde.toHTML(false));
       });
 
       taldeEmaitzak.querySelectorAll(".item-card").forEach(talde => {
-        talde.addEventListener("click", function() {
+        talde.addEventListener("click", function () {
           taldeBilaketa.value = talde.getAttribute("data-id");
-          const taldeIzena = talde.querySelector("h3").textContent; 
-          taldeEmaitzak.innerHTML = `<p id="talde-egoera"> ${taldeIzena} aukeratu da</p>`;
+          const taldeIzena = talde.querySelector("h3").textContent;
+          taldeEmaitzak.innerHTML = `<p id="talde-egoera">${taldeIzena} aukeratu da</p>`;
         });
       });
     } catch (error) {
@@ -179,15 +181,48 @@ async function bilatuApi() {
     }
   });
 
-  //HARRITU NAZAZU
-  const jokalariakID = [154, 874, 1100, 278, 184, 15795, 762, 629, 521, 1460];
+  // HARRITU NAZAZU (KROMO-ZORROAREN IREKIERA ANIMATUA - +2500 JOKALARI)
   const denboraldiak = [2022, 2023, 2024];
 
-  harrituBotoia.addEventListener("click", async function () {
-    const randomId = jokalariakID[Math.floor(Math.random() * jokalariakID.length)];
-    const randomDenboraldi = denboraldiak[Math.floor(Math.random() * denboraldiak.length)];
+  const zorroModala = document.getElementById("zorro-modala");
+  const itxiZorroa = document.getElementById("itxi-zorroa");
+  const zorroItxiaFasea = document.getElementById("zorro-itxia-fasea");
+  const zorroIrekiaFasea = document.getElementById("zorro-irekia-fasea");
+  const kromoZorroa = document.getElementById("kromo-zorroa");
+  const irekiZorroaBotoia = document.getElementById("ireki-zorroa-botoia");
+  const zorroEgoeraTestua = document.getElementById("zorro-egoera-testua");
+  const zorroKromoLekua = document.getElementById("zorro-kromo-lekua");
+  const zorroArrarotasunaTitulua = document.getElementById("zorro-arrarotasuna-titulua");
+  const zorroNota = document.getElementById("zorro-nota");
+  const zorroIruzkina = document.getElementById("zorro-iruzkina");
+  const zorroGordeBotoia = document.getElementById("zorro-gorde-botoia");
+  const zorroBerriaBotoia = document.getElementById("zorro-berria-botoia");
+  const zorroGordeMezua = document.getElementById("zorro-gorde-mezua");
 
-    harrituEgoera.textContent = `Ausazko jokalaria bilatzen...`;
+  let unekoZorroPlayer = null;
+
+  function lortuAusazkoJokalariId() {
+    return Math.floor(Math.random() * 2500) + 1;
+  }
+
+  async function prestatuZorroa(saiakera = 1) {
+    if (saiakera === 1) {
+      unekoZorroPlayer = null;
+      zorroModala.classList.remove("ezkutatuta");
+      zorroItxiaFasea.classList.remove("ezkutatuta");
+      zorroIrekiaFasea.classList.add("ezkutatuta");
+      kromoZorroa.classList.add("dardara");
+      kromoZorroa.classList.remove("zorro-irekitzen");
+
+      irekiZorroaBotoia.disabled = true;
+      irekiZorroaBotoia.textContent = "⏳ Zorroa prestatzen...";
+      zorroEgoeraTestua.textContent = "Jokalaria bilatzen...";
+      zorroGordeMezua.textContent = "";
+      zorroIruzkina.value = "";
+    }
+
+    const randomId = lortuAusazkoJokalariId();
+    const randomDenboraldi = denboraldiak[Math.floor(Math.random() * denboraldiak.length)];
 
     try {
       const erantzuna = await fetch(
@@ -201,28 +236,112 @@ async function bilatuApi() {
       );
 
       const data = await erantzuna.json();
+      const emaitza = data.response?.[0];
 
-      const emaitza = data.response[0];
-      const player = new Item({
+      if (!emaitza || !emaitza.statistics || emaitza.statistics.length === 0) {
+        if (saiakera < 5) {
+          return prestatuZorroa(saiakera + 1);
+        }
+        zorroEgoeraTestua.textContent = "Ez da jokalaririk aurkitu, saiatu berriro";
+        irekiZorroaBotoia.disabled = false;
+        irekiZorroaBotoia.textContent = "🔄 Saiatu berriro";
+        return;
+      }
+
+      const ausazkoNota = [3, 4, 4, 5][Math.floor(Math.random() * 4)];
+
+      unekoZorroPlayer = new Item({
         season: randomDenboraldi,
         ...emaitza.player,
         estadistikak: emaitza.statistics,
-        balorazioa: "3",
-        iruzkina: "Harritu nazazu bidez gehituta"
+        balorazioa: String(ausazkoNota),
+        iruzkina: "Kromo-zorroan lortua"
       });
 
-      emaitzak.innerHTML = player.toHTML(false);
-      jokalariDatuak.innerHTML = player.toXehetasunHTML(true);
-
-      const gordeta = bildumaStorage.gorde(player);
-      if (gordeta) {
-        harrituEgoera.textContent = `${player.izena} ${player.abizena || ""} (${randomDenboraldi}) bilduman gorde da.`;
-      } else {
-        harrituEgoera.textContent = `${player.izena} ${player.abizena || ""} (${randomDenboraldi}) jada bilduman zegoen.`;
-      }
+      zorroNota.value = String(ausazkoNota);
+      zorroEgoeraTestua.textContent = "PREST DAGO!";
+      irekiZorroaBotoia.disabled = false;
+      irekiZorroaBotoia.textContent = "✨ IREKI ZORROA!";
     } catch (error) {
       console.error("error", error);
-      harrituEgoera.textContent = "Errore bat gertatu da.";
+      zorroEgoeraTestua.textContent = "Konexio errorea";
+      irekiZorroaBotoia.disabled = false;
+      irekiZorroaBotoia.textContent = "🔄 Saiatu berriro";
     }
+  }
+
+  function erakutsiZorrokoKromoa() {
+    if (!unekoZorroPlayer) {
+      prestatuZorroa();
+      return;
+    }
+
+    kromoZorroa.classList.remove("dardara");
+    kromoZorroa.classList.add("zorro-irekitzen");
+
+    setTimeout(() => {
+      zorroItxiaFasea.classList.add("ezkutatuta");
+      zorroIrekiaFasea.classList.remove("ezkutatuta");
+
+      const nota = Number(unekoZorroPlayer.balorazioa);
+      if (nota >= 5) {
+        zorroArrarotasunaTitulua.textContent = "👑 URREZKO KONDAIRA LORTU DUZU!";
+      } else if (nota === 4) {
+        zorroArrarotasunaTitulua.textContent = "⚡ ZILARREZKO ELITE KROMOA!";
+      } else {
+        zorroArrarotasunaTitulua.textContent = "🔥 KROMO BERRIA LORTU DUZU!";
+      }
+
+      zorroKromoLekua.innerHTML = unekoZorroPlayer.toHTML(true);
+      const checkEtiketa = zorroKromoLekua.querySelector(".konparatu-etiketa");
+      if (checkEtiketa) checkEtiketa.remove();
+
+      if (typeof aktibatuKromo3DEfektua === "function") {
+        aktibatuKromo3DEfektua(zorroKromoLekua);
+      }
+
+      emaitzak.innerHTML = unekoZorroPlayer.toHTML(false);
+      jokalariDatuak.innerHTML = unekoZorroPlayer.toXehetasunHTML(false);
+    }, 450);
+  }
+
+  harrituBotoia.addEventListener("click", () => prestatuZorroa(1));
+  irekiZorroaBotoia.addEventListener("click", erakutsiZorrokoKromoa);
+  kromoZorroa.addEventListener("click", () => {
+    if (!irekiZorroaBotoia.disabled) erakutsiZorrokoKromoa();
+  });
+
+  zorroNota.addEventListener("input", () => {
+    if (!unekoZorroPlayer) return;
+    let val = Number(zorroNota.value);
+    if (val >= 1 && val <= 5) {
+      unekoZorroPlayer.balorazioa = String(val);
+      zorroKromoLekua.innerHTML = unekoZorroPlayer.toHTML(true);
+      const checkEtiketa = zorroKromoLekua.querySelector(".konparatu-etiketa");
+      if (checkEtiketa) checkEtiketa.remove();
+    }
+  });
+
+  zorroGordeBotoia.addEventListener("click", () => {
+    if (!unekoZorroPlayer) return;
+    let val = Number(zorroNota.value);
+    if (!val || val < 1 || val > 5) val = 3;
+
+    unekoZorroPlayer.balorazioa = String(val);
+    unekoZorroPlayer.iruzkina = zorroIruzkina.value.trim() || "Kromo-zorroan lortua";
+
+    const gordeta = bildumaStorage.gorde(unekoZorroPlayer);
+    if (gordeta) {
+      zorroGordeMezua.textContent = `✅ ${unekoZorroPlayer.izena} ${unekoZorroPlayer.abizena || ""} albumean itsatsi da!`;
+      harrituEgoera.textContent = `${unekoZorroPlayer.izena} ${unekoZorroPlayer.abizena || ""} bilduman gorde da.`;
+    } else {
+      zorroGordeMezua.textContent = "⚠️ Kromo hau jada zure albumean dago!";
+    }
+  });
+
+  zorroBerriaBotoia.addEventListener("click", () => prestatuZorroa(1));
+  itxiZorroa.addEventListener("click", () => zorroModala.classList.add("ezkutatuta"));
+  zorroModala.addEventListener("click", (e) => {
+    if (e.target === zorroModala) zorroModala.classList.add("ezkutatuta");
   });
 }

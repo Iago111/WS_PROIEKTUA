@@ -1,10 +1,8 @@
-
 class Item {
   constructor(ApiDatuak) {
-    //kartaren id denboralditan bereizteko
-    this.cardId=ApiDatuak.season ? `${ApiDatuak.id}-${ApiDatuak.season}` : null;
-    //denbboraldia
-    this.denb=ApiDatuak.season
+    this.cardId = ApiDatuak.season ? `${ApiDatuak.id}-${ApiDatuak.season}` : null;
+    this.denb = ApiDatuak.season;
+
     // Informazio orokorra
     this.id = ApiDatuak.id;
     this.izena = ApiDatuak.firstname || ApiDatuak.name;
@@ -24,8 +22,9 @@ class Item {
     this.lesionatuta = ApiDatuak.injured;
 
     // Taldearen informazioa (estatistiketatik)
-    this.taldea = ApiDatuak.estadistikak?.[0].team.name;
-    this.taldeLogo = ApiDatuak.estadistikak?.[0].team.logo;
+    this.taldea = ApiDatuak.estadistikak?.[0]?.team?.name;
+    this.taldeLogo = ApiDatuak.estadistikak?.[0]?.team?.logo;
+
     // Estatistikak
     this.estatistikak = ApiDatuak.estadistikak || [];
 
@@ -33,91 +32,204 @@ class Item {
     this.gordetakoData = ApiDatuak.gordetakoData
       ? new Date(ApiDatuak.gordetakoData)
       : new Date();
-    this.balorazioa = ApiDatuak.balorazioa || ""
-    this.iruzkina = ApiDatuak.iruzkina || ""
+    this.balorazioa = ApiDatuak.balorazioa || "";
+    this.iruzkina = ApiDatuak.iruzkina || "";
   }
 
-  // Bilaketako txartela
+  // Laguntzailea: kromoaren arrarotasun klasea lortu balorazioaren arabera
+  lortuKromoMota(balorazioaErakutsi) {
+    if (!balorazioaErakutsi || !this.balorazioa) return "kromo-estandar";
+    const nota = Number(this.balorazioa);
+    if (nota >= 5) return "kromo-urrea";
+    if (nota === 4) return "kromo-zilarra";
+    return "kromo-brontzea";
+  }
+
+  // Kromo txartela (Bilatzailean eta Bilduman)
+  // Kromo txartela (Bilatzailean eta Bilduman, aurrealdea eta atzealdea)
   toHTML(balorazioa) {
+    const unekoId = this.cardId ? this.cardId : this.id;
+    const kromoMota = this.lortuKromoMota(balorazioa);
+    const golak = this.estatistikak.reduce((acc, x) => acc + (x.goals?.total || 0), 0);
+    const asistentziak = this.estatistikak.reduce((acc, x) => acc + (x.goals?.assists || 0), 0);
+    const partidak = this.estatistikak.reduce((acc, x) => acc + (x.games?.appearences || 0), 0);
+    const posizioa = this.estatistikak?.[0]?.games?.position
+      ? this.estatistikak[0].games.position.slice(0, 3).toUpperCase()
+      : "JOK";
+    const dataFormatua = this.gordetakoData instanceof Date && !isNaN(this.gordetakoData)
+      ? this.gordetakoData.toLocaleDateString("eu-ES")
+      : "-";
+
     return `
-      <div class="item-card" data-id="${this.cardId ? this.cardId : this.id}">
-        <img src="${this.irudia || ""}" alt="${this.izena}" width="80">
-        <h3>${this.izena} ${this.abizena || ""} ${this.denb || ""}</h3>
-        <p>${this.taldea || ""}</p>
-        <p>${this.adina ? `${this.adina} urte` : ""}</p>
-        ${balorazioa ? `<p><Strong>Balorazioa:</Strong> ${this.balorazioa}/5</p>`: ""}
+      <div class="item-card kromo ${kromoMota}" data-id="${unekoId}">
+        <div class="kromo-barnea">
+          <!-- AURREALDEA -->
+          <div class="kromo-aurpegia kromo-aurrea">
+            <div class="kromo-distira"></div>
+
+            <div class="kromo-goia">
+              <div class="kromo-ezkerra">
+                <span class="kromo-nota">${balorazioa && this.balorazioa ? `${this.balorazioa}★` : posizioa}</span>
+                <span class="kromo-posizioa">${posizioa}</span>
+                ${this.taldeLogo ? `<img class="kromo-armarria" src="${this.taldeLogo}" alt="${this.taldea || ""}">` : ""}
+              </div>
+              <span class="kromo-denboraldia">${this.denb || ""}</span>
+            </div>
+
+            <div class="kromo-irudia-kontainerra">
+              <img class="kromo-argazkia" src="${this.irudia || ""}" alt="${this.izena}">
+            </div>
+
+            <div class="kromo-izena-plaka">
+              <h3>${this.izena}</h3>
+              <p class="kromo-taldea">${this.taldea || "Talderik gabe"}</p>
+            </div>
+
+            <div class="kromo-stats-barra">
+              <div><span>${partidak}</span><small>PAR</small></div>
+              <div><span>${golak}</span><small>GOL</small></div>
+              <div><span>${asistentziak}</span><small>ASI</small></div>
+            </div>
+
+            ${balorazioa ? `
+              <div class="kromo-ekintza-lerroa">
+                <label class="konparatu-etiketa">
+                  <input type="checkbox" class="konparatu-check" data-id="${unekoId}">
+                  <span>Konparatu</span>
+                </label>
+                <button type="button" class="buelta-botoia" title="Ikusi atzealdea">🔄</button>
+              </div>
+            ` : ""}
+          </div>
+
+          <!-- ATZEALDEA (REVERSO OFICIAL) -->
+          ${balorazioa ? `
+            <div class="kromo-aurpegia kromo-atzea">
+              <div class="kromo-atze-goia">
+                <strong>FITXA OFIZIALA</strong>
+                <button type="button" class="buelta-botoia" title="Itzuli aurrealdera">🔄</button>
+              </div>
+              <ul class="kromo-atze-datuak">
+                <li><span>Herrialdea:</span> <strong>${this.nazionalitatea || "-"}</strong></li>
+                <li><span>Adina:</span> <strong>${this.adina ?? "-"} urte</strong></li>
+                <li><span>Altuera:</span> <strong>${this.altuera || "-"}</strong></li>
+                <li><span>Pisua:</span> <strong>${this.pisua || "-"}</strong></li>
+                <li><span>Itsatsita:</span> <strong>${dataFormatua}</strong></li>
+              </ul>
+              <p class="kromo-atze-iruzkina">"${this.iruzkina || "Iruzkinik gabe"}"</p>
+            </div>
+          ` : ""}
+        </div>
       </div>
     `;
   }
 
   // Jokalariaren informazio xehea
   toXehetasunHTML(gordetaDago) {
+    const partidak = this.estatistikak.reduce((acc, x) => acc + (x.games?.appearences || 0), 0);
+    const hamaikakoa = this.estatistikak.reduce((acc, x) => acc + (x.games?.lineups || 0), 0);
+    const minutuak = this.estatistikak.reduce((acc, x) => acc + (x.games?.minutes || 0), 0);
+    const golak = this.estatistikak.reduce((acc, x) => acc + (x.goals?.total || 0), 0);
+    const tiroak = this.estatistikak.reduce((acc, x) => acc + (x.shots?.total || 0), 0);
+    const asistentziak = this.estatistikak.reduce((acc, x) => acc + (x.goals?.assists || 0), 0);
+    const horiak = this.estatistikak.reduce((acc, x) => acc + (x.cards?.yellow || 0), 0);
+    const gorriak = this.estatistikak.reduce((acc, x) => acc + (x.cards?.red || 0), 0);
+    const paseak = this.estatistikak.reduce((acc, x) => acc + (x.passes?.total || 0), 0);
+    const paseGiltzarriak = this.estatistikak.reduce((acc, x) => acc + (x.passes?.key || 0), 0);
+    const faltak = this.estatistikak.reduce((acc, x) => acc + (x.fouls?.committed || 0), 0);
+    const posizioa = this.estatistikak?.[0]?.games?.position || "Ez dago eskuragarri";
+
     return `
       <div class="xehetasunak">
-        <h2>${this.izena} ${this.abizena || ""}</h2>
+        <div class="xehetasun-goiburua">
+          <img class="xehetasun-foto" src="${this.irudia || ""}" alt="${this.izena}">
+          <div>
+            <h2>${this.izena} ${this.abizena || ""}</h2>
+            <p class="xehetasun-azpititulua">
+              ${this.taldeLogo ? `<img src="${this.taldeLogo}" alt="${this.taldea || ""}" width="24">` : ""}
+              <span>${this.taldea || "Ez dago eskuragarri"} · ${this.denb || ""}</span>
+            </p>
+            <span class="txapa">${posizioa}</span>
+            <span class="txapa ${this.lesionatuta ? "txapa-gorria" : "txapa-berdea"}">
+              ${this.lesionatuta ? "Lesionatuta" : "Jokatzeko prest"}
+            </span>
+          </div>
+        </div>
 
-        <img src="${this.irudia || ""}" alt="${this.izena}" width="150">
+        <div class="xehetasun-sareta">
+          <div><strong>Adina:</strong> ${this.adina ?? "-"}</div>
+          <div><strong>Nazionalitatea:</strong> ${this.nazionalitatea || "-"}</div>
+          <div><strong>Jaiotze data:</strong> ${this.jaiotzeData || "-"}</div>
+          <div><strong>Jaiotze lekua:</strong> ${this.jaiotzeLekua || "-"}</div>
+          <div><strong>Altuera:</strong> ${this.altuera || "-"}</div>
+          <div><strong>Pisua:</strong> ${this.pisua || "-"}</div>
+        </div>
 
-        <p><strong>ID:</strong> ${this.cardId}</p>
-        <p><strong>Adina:</strong> ${this.adina ?? "Ez dago eskuragarri"}</p>
-        <p><strong>Nazionalitatea:</strong> ${this.nazionalitatea || "Ez dago eskuragarri"}</p>
-        <p><strong>Jaiotze data:</strong> ${this.jaiotzeData || "Ez dago eskuragarri"}</p>
-        <p><strong>Jaiotze lekua:</strong> ${this.jaiotzeLekua || "Ez dago eskuragarri"}</p>
-        <p><strong>Altuera:</strong> ${this.altuera || "Ez dago eskuragarri"}</p>
-        <p><strong>Pisua:</strong> ${this.pisua || "Ez dago eskuragarri"}</p>
-        <p><strong>Lesionatuta:</strong> ${this.lesionatuta ? "Bai" : "Ez"}</p>
+        <h3>${this.denb || ""} Denboraldiko Estatistikak</h3>
+        <div class="stats-koadroa">
+          <div class="stat-kutxa"><strong>${partidak}</strong><span>Partidak</span></div>
+          <div class="stat-kutxa"><strong>${hamaikakoa}</strong><span>Hamaikakoa</span></div>
+          <div class="stat-kutxa"><strong>${minutuak}'</strong><span>Minutuak</span></div>
+          <div class="stat-kutxa"><strong>${golak}</strong><span>Golak</span></div>
+          <div class="stat-kutxa"><strong>${asistentziak}</strong><span>Asistentziak</span></div>
+          <div class="stat-kutxa"><strong>${tiroak}</strong><span>Tiroak</span></div>
+          <div class="stat-kutxa"><strong>${paseak}</strong><span>Paseak</span></div>
+          <div class="stat-kutxa"><strong>${paseGiltzarriak}</strong><span>Giltzarriak</span></div>
+          <div class="stat-kutxa"><strong>${horiak}</strong><span>Tx. Horiak</span></div>
+          <div class="stat-kutxa"><strong>${gorriak}</strong><span>Tx. Gorriak</span></div>
+          <div class="stat-kutxa"><strong>${faltak}</strong><span>Faltak</span></div>
+        </div>
 
-        <h3>Taldea</h3>
-        <img src="${this.taldeLogo || ""}" alt="${this.taldea || ""}" width="60">
-        <p>${this.taldea || "Ez dago eskuragarri"}</p>
+        <div class="balorazio-blokea">
+          <label for="nota"><strong>Balorazioa (1-5):</strong></label>
+          ${!gordetaDago
+            ? `<input type="number" id="nota" name="nota" min="1" max="5" value="3" required>`
+            : `<p class="balorazio-izarrak">${"★".repeat(Number(this.balorazioa))}${"☆".repeat(5 - Number(this.balorazioa))} (${this.balorazioa}/5)</p>`}
 
-        <h3>${this.denb} Denboraldiko estatistikak</h3>
-          
-          <p><strong>Partidak:</strong> ${this.estatistikak.reduce((acc,x)=>{return acc+x.games.appearences},0) ?? 0}</p>
-          <p><strong>Hasierako hamaikakoa:</strong> ${this.estatistikak.reduce((acc,x)=>{return acc+x.games.lineups},0) ?? 0}</p>
-          <p><strong>Minutuak:</strong> ${this.estatistikak.reduce((acc,x)=>{return acc+x.games.minutes},0) ?? 0}</p>
-          <p><strong>Posizioa:</strong> ${this.estatistikak[0].games.position || "Ez dago eskuragarri"}</p>
-
-          <p><strong>Golak:</strong> ${this.estatistikak.reduce((acc,x)=>{return acc+x.goals.total},0) ?? 0}</p>
-          <p><strong>Tiroak:</strong> ${this.estatistikak.reduce((acc,x)=>{return acc+x.shots.total},0) ?? 0}</p>
-          <p><strong>Asistentziak:</strong> ${this.estatistikak.reduce((acc,x)=>{return acc+x.goals.assists},0) ?? 0}</p>
-
-          <p><strong>Txartel horiak:</strong> ${this.estatistikak.reduce((acc,x)=>{return acc+x.cards.yellow},0) ?? 0}</p>
-          <p><strong>Txartel gorriak:</strong> ${this.estatistikak.reduce((acc,x)=>{return acc+x.cards.red},0) ?? 0}</p>
-
-          <p><strong>Paseak:</strong> ${this.estatistikak.reduce((acc,x)=>{return acc+x.passes.total},0) ?? 0}</p>
-          <p><strong>Pase giltzarriak:</strong> ${this.estatistikak.reduce((acc,x)=>{return acc+x.passes.key},0) ?? 0}</p>
-          <p><strong>Partidako faltak:</strong> ${this.estatistikak.reduce((acc,x)=>{return acc+x.fouls.committed},0) ?? 0}</p>
-          
-          <label for="nota">Balorazioa (1-5):</label>
-        
-        ${!gordetaDago ? `<input type="number" id="nota" name="nota" min="1" max="5" required>
-          <p></p>` : `<p>${this.balorazioa}/5</p>`}
-        
-          <label for="editor">IRUZKINA</label><br>
-        
-        ${!gordetaDago ? ` <textarea id="iruzkina" rows="6" cols="50" placeholder="Iruzkina"></textarea>
-          <p></p>
-          <button type="button" id="gordeBiltegian"> Gorde biltegian</button>` : `<p>${this.iruzkina}</p>`}
-        `
-    ;
+          <label for="iruzkina"><strong>Iruzkina:</strong></label>
+          ${!gordetaDago
+            ? `<textarea id="iruzkina" rows="4" placeholder="Idatzi jokalariari buruzko oharra..."></textarea>
+               <button type="button" id="gordeBiltegian" class="botoi-nagusia">🃏 Gorde Bilduman</button>`
+            : `<p class="iruzkin-kutxa">${this.iruzkina || "Iruzkinik gabe."}</p>`}
+        </div>
+      </div>
+    `;
   }
 
   toBildumaKudeatu() {
-  const unekoId = this.cardId
-  return `<div class="kudeatu" data-id="${unekoId}">
-    <h2>${this.izena} ${this.abizena || ""} ${this.denb || ""}</h2>
-    <img src="${this.irudia}" alt="${this.izena}">
-    <p><strong>Balorazioa:</strong></p>
-    <input type="number" id="nota-${unekoId}" min="1" max="5" value="${this.balorazioa}"> 
-    <p><strong>Iruzkina:</strong></p>
-    <textarea id="iruzkina-${unekoId}" rows="6" cols="50" placeholder="Iruzkina">${this.iruzkina}</textarea>
-    <button type="button" id="gorde-${unekoId}">Gorde Aldaketak</button>
-    <button type="button" id="ezabatu-${unekoId}">Ezabatu Karta</button>
-    <p id="text-${unekoId}"></p>
-  </div>`;
+    const unekoId = this.cardId;
+    const kromoMota = this.lortuKromoMota(true);
+    const notaNum = Number(this.balorazioa) || 3;
+    const izarrak = "★".repeat(notaNum) + "☆".repeat(5 - notaNum);
+
+    return `
+      <div class="kudeatu ${kromoMota}-borde" data-id="${unekoId}">
+        <div class="kudeatu-goiburua">
+          <img src="${this.irudia}" alt="${this.izena}">
+          <div class="kudeatu-tituluak">
+            <span class="kudeatu-izarrak">${izarrak}</span>
+            <h2>${this.izena} ${this.abizena || ""}</h2>
+            <p>${this.taldea || "Talderik gabe"} · <strong>${this.denb || ""}</strong></p>
+          </div>
+        </div>
+
+        <div class="kudeatu-eremuak">
+          <label for="nota-${unekoId}"><strong>Balorazioa (1-5):</strong></label>
+          <input type="number" id="nota-${unekoId}" min="1" max="5" value="${this.balorazioa}">
+
+          <label for="iruzkina-${unekoId}"><strong>Iruzkina:</strong></label>
+          <textarea id="iruzkina-${unekoId}" rows="2" placeholder="Idatzi jokalariari buruzko oharra...">${this.iruzkina}</textarea>
+        </div>
+
+        <div class="kudeatu-botoiak">
+          <button type="button" id="gorde-${unekoId}" class="botoi-nagusia">💾 Gorde</button>
+          <button type="button" id="ezabatu-${unekoId}" class="botoi-arriskua">🗑️ Ezabatu</button>
+        </div>
+        <p id="text-${unekoId}" class="egoera-mezua"></p>
+      </div>
+    `;
   }
-  // LocalStorage-rako objektua prestatu
+
   toStorageObject() {
     return {
       cardId: this.cardId,
@@ -143,7 +255,6 @@ class Item {
     };
   }
 
-  // LocalStorage-tik objektua berreraiki
   static fromStorageObject(obj) {
     return new Item(obj);
   }

@@ -1,10 +1,16 @@
-<h2>Bilduma Kudeatu</h2>
+<h2>⚙️ Bilduma Kudeatu</h2>
 
-<div id="hustu" class="panel">
-  <h3>BILDUMA USTU</h3>
-  <button id="botoia-hustu">Bilduma hustu</button>
+<div id="ekintzak-kudeatu" class="panel kudeatu-barra">
+  <div class="kudeatu-bilaketa-taldea">
+    <input type="text" id="kudeatu-iragazkia" placeholder="🔍 Iragazi izenaren edo taldearen arabera...">
+  </div>
+
+  <div class="kudeatu-tresnak">
+    <button type="button" id="botoia-esportatu" class="botoi-nagusia">⬇️ Esportatu (.json)</button>
+    <button type="button" id="botoia-inportatu" class="botoi-urrea">⬆️ Inportatu (.json)</button>
+    <input type="file" id="fitxategia-inportatu" accept=".json" style="display: none;">
+    <button type="button" id="botoia-hustu" class="botoi-arriskua">🗑️ Hustu Bilduma</button>
+  </div>
 </div>
 
-<div id="lista-kudeatu" class="panel">
-  <p>Oraindik ez du item-ik gorde.</p>
-</div>
+<div id="lista-kudeatu" class="kudeatu-sareta"></div>

@@ -1,171 +1,1651 @@
+:root {
+  --bg: #f1f5f9;
+  --surface: #ffffff;
+  --surface-alt: #f8fafc;
+  --text: #0f172a;
+  --text-muted: #64748b;
+  --border: #e2e8f0;
+  --primary: #15803d;
+  --primary-hover: #166534;
+  --accent: #eab308;
+  --shadow: 0 10px 25px -5px rgba(15, 23, 42, 0.08);
+}
+
+body.iluna {
+  --bg: #0b1120;
+  --surface: #1e293b;
+  --surface-alt: #0f172a;
+  --text: #f1f5f9;
+  --text-muted: #94a3b8;
+  --border: #334155;
+  --primary: #22c55e;
+  --primary-hover: #16a34a;
+  --shadow: 0 12px 30px rgba(0, 0, 0, 0.45);
+  color-scheme: dark;
+}
+
+* {
+  box-sizing: border-box;
+}
+
 body {
-  font-family: sans-serif;
+  font-family: 'Inter', sans-serif;
+  background-color: var(--bg);
+  color: var(--text);
   margin: 0;
   min-height: 100vh;
   display: flex;
   flex-direction: column;
+  transition: background-color 0.25s ease, color 0.25s ease;
 }
 
+/* ===== GOIBURUA ===== */
 #goiburua {
-  padding: 16px;
-  border-bottom: 1px solid #ccc;
+  background: linear-gradient(135deg, #0f172a 0%, #14532d 100%);
+  color: #ffffff;
+  padding: 18px 28px;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.2);
+}
+
+.goiburua-edukia {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+.goiburua-ikonoa {
+  font-size: 2rem;
 }
 
 #goiburua h1 {
+  font-family: 'Oswald', sans-serif;
   margin: 0;
-  font-size: 1.5rem;
+  font-size: 1.75rem;
+  letter-spacing: 1px;
 }
 
+.goiburua-azpititulua {
+  margin: 2px 0 0;
+  font-size: 0.85rem;
+  color: #cbd5e1;
+}
+
+/* ===== EGITURA NAGUSIA ===== */
 #biltegi-nagusia {
   flex: 1;
   display: flex;
 }
-#bilatzaile-edukia {
-  display: flex;
-  gap: 20px;
-  align-items: flex-start;
-}
-#bilatzaile-edukia .panel {
-  flex: 1;
-  margin-bottom: 0; 
-}
+
 #menu-nagusia {
   display: flex;
   flex-direction: column;
   gap: 8px;
-  width: 200px;
+  width: 230px;
   flex-shrink: 0;
-  padding: 16px;
-  border-right: 1px solid #ccc;
+  padding: 20px 14px;
+  background-color: var(--surface);
+  border-right: 1px solid var(--border);
 }
 
 #menu-nagusia button {
-  padding: 8px;
+  padding: 11px 14px;
   text-align: left;
+  font-size: 0.95rem;
+  font-weight: 600;
+  border: none;
+  border-radius: 10px;
+  background: transparent;
+  color: var(--text);
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+#menu-nagusia button:hover {
+  background-color: var(--surface-alt);
+  transform: translateX(3px);
 }
 
 #menu-nagusia button.active {
-  font-weight: bold;
-  text-decoration: underline;
+  background: linear-gradient(135deg, #15803d, #16a34a);
+  color: #ffffff;
+  box-shadow: 0 4px 12px rgba(22, 163, 74, 0.35);
 }
 
 main {
   flex: 1;
-  padding: 16px;
+  padding: 24px;
+  max-width: 1500px;
 }
 
-#oina {
-  padding: 12px 16px;
-  border-top: 1px solid #ccc;
-  text-align: center;
-}
-
-#oina p {
-  margin: 0;
-}
-
-body.iluna {
-  background: #1e1e1e;
-  color: #eee;
-  color-scheme: dark;
-}
-
-body.iluna .kudeatu {
-  background-color: #2a2a2a;
-  border-color: #444;
+main > section > h2 {
+  font-family: 'Oswald', sans-serif;
+  font-size: 1.8rem;
+  margin-top: 0;
+  letter-spacing: 0.5px;
 }
 
 .atala {
   display: none;
+  animation: agertu 0.25s ease;
 }
 
 .atala.aktiboa {
   display: block;
 }
 
-.item-card {
-  border: 1px solid #ccc;
-  border-radius: 6px;
-  padding: 12px;
-  margin-bottom: 12px;
+@keyframes agertu {
+  from { opacity: 0; transform: translateY(6px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* ===== PANELAK ETA BOTOIAK ===== */
+.panel {
+  background-color: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  padding: 18px;
+  margin-bottom: 20px;
+  box-shadow: var(--shadow);
+}
+
+.panel h3 {
+  font-family: 'Oswald', sans-serif;
+  margin-top: 0;
+  font-size: 1.25rem;
+  border-bottom: 2px solid var(--border);
+  padding-bottom: 8px;
+}
+
+input[type="text"],
+input[type="number"],
+select,
+textarea {
+  padding: 9px 12px;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  background-color: var(--surface-alt);
+  color: var(--text);
+  font-family: inherit;
+  font-size: 0.92rem;
+}
+
+button[type="submit"],
+.botoi-nagusia,
+#harritu-botoia,
+#emaitzak-ezabatu,
+#botoia-hustu {
+  padding: 9px 16px;
+  border: none;
+  border-radius: 8px;
+  font-weight: 600;
+  cursor: pointer;
+  background-color: var(--primary);
+  color: #ffffff;
+  transition: all 0.2s ease;
+}
+
+button[type="submit"]:hover,
+.botoi-nagusia:hover {
+  background-color: var(--primary-hover);
+  transform: translateY(-1px);
+}
+
+#harritu-botoia {
+  background: linear-gradient(135deg, #d97706, #eab308);
+  color: #0f172a;
+}
+
+#emaitzak-ezabatu,
+#botoia-hustu,
+.botoi-arriskua {
+  background-color: #dc2626;
+  color: #ffffff;
+  padding: 9px 16px;
+  border: none;
+  border-radius: 8px;
+  font-weight: 600;
   cursor: pointer;
 }
 
-.item-card img {
-  max-width: 100%;
-  height: auto;
+/* ===== SARETAK (BILATZAILEA ETA BILDUMA) ===== */
+#bilatzaile-edukia {
+  display: grid;
+  grid-template-columns: 1fr 1.6fr 1.2fr;
+  gap: 20px;
+  align-items: start;
 }
 
-.item-card.hautatua {
-  outline: 2px solid #00a870;
-}
-
-.bilatzaile-edukia,
 .bilduma-edukiak {
   display: grid;
-  grid-template-columns: 2fr 1fr;
+  grid-template-columns: 1.8fr 1.1fr;
   gap: 24px;
   align-items: start;
 }
 
 #bilaketa,
-#bilduma-kontrolak,
-#ekintzak-kudeatu{
+#bilduma-kontrolak {
   display: flex;
-  flex-wrap: wrap;      
-  align-items: center; 
-  gap: 16px;}
-
-#egoera-bilatzen:empty,
-#bilduma-kontrolak:empty {
-  display: none;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 14px;
 }
 
-.panel {
-  border: 1px solid #ccc;
+.kontrol-taldea {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  font-size: 0.85rem;
+  font-weight: 600;
+}
+
+/* Kromo sareta (Album estiloa) */
+#lista-bilduma,
+#emaitzak-bilaketa {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(195px, 1fr));
+  gap: 18px;
+}
+
+/* ===== KROMO DISEINUA (PANINI / FUT STYLE) ===== */
+.kromo {
+  position: relative;
+  border-radius: 16px;
+  padding: 14px 12px;
+  cursor: pointer;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  border: 3px solid #94a3b8;
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.18);
+  transition: transform 0.15s ease, box-shadow 0.2s ease;
+  user-select: none;
+}
+
+.kromo:hover {
+  box-shadow: 0 16px 32px rgba(0, 0, 0, 0.3);
+}
+
+.kromo.hautatua {
+  outline: 4px solid #22c55e;
+  outline-offset: 2px;
+}
+
+/* Distira holografikoa */
+.kromo-distira {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    115deg,
+    transparent 20%,
+    rgba(255, 255, 255, 0.35) 48%,
+    rgba(255, 255, 255, 0.55) 50%,
+    rgba(255, 255, 255, 0.35) 52%,
+    transparent 80%
+  );
+  transform: translateX(-100%);
+  transition: transform 0.6s ease;
+  pointer-events: none;
+}
+
+.kromo:hover .kromo-distira {
+  transform: translateX(100%);
+}
+
+/* Kromo motak (Arrarotasuna) */
+.kromo-estandar {
+  background: linear-gradient(160deg, #1e293b 0%, #334155 55%, #0f172a 100%);
+  border-color: #38bdf8;
+  color: #f8fafc;
+}
+
+.kromo-brontzea {
+  background: linear-gradient(160deg, #7c2d12 0%, #b45309 50%, #451a03 100%);
+  border-color: #f59e0b;
+  color: #fef3c7;
+}
+
+.kromo-zilarra {
+  background: linear-gradient(160deg, #cbd5e1 0%, #f8fafc 45%, #94a3b8 100%);
+  border-color: #e2e8f0;
+  color: #0f172a;
+}
+
+.kromo-urrea {
+  background: linear-gradient(155deg, #fde047 0%, #eab308 42%, #a16207 100%);
+  border-color: #fef08a;
+  color: #1c1917;
+  box-shadow: 0 10px 25px rgba(234, 179, 8, 0.4);
+}
+
+.kromo-goia {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+}
+
+.kromo-ezkerra {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2px;
+}
+
+.kromo-nota {
+  font-family: 'Oswald', sans-serif;
+  font-size: 1.2rem;
+  font-weight: 700;
+  line-height: 1;
+}
+
+.kromo-posizioa {
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.5px;
+  opacity: 0.85;
+}
+
+.kromo-armarria {
+  width: 26px;
+  height: 26px;
+  object-fit: contain;
+  margin-top: 3px;
+  background: rgba(255, 255, 255, 0.85);
+  border-radius: 50%;
+  padding: 2px;
+}
+
+.kromo-denboraldia {
+  font-family: 'Oswald', sans-serif;
+  font-size: 0.85rem;
+  background: rgba(0, 0, 0, 0.25);
+  color: #ffffff;
+  padding: 2px 7px;
   border-radius: 6px;
+}
+
+.kromo-irudia-kontainerra {
+  width: 96px;
+  height: 96px;
+  margin: 4px 0 8px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.22);
+  border: 2px solid rgba(255, 255, 255, 0.5);
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.kromo-argazkia {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.kromo-izena-plaka {
+  width: 100%;
+  background: rgba(0, 0, 0, 0.22);
+  border-radius: 8px;
+  padding: 5px 6px;
+  margin-bottom: 8px;
+}
+
+.kromo-zilarra .kromo-izena-plaka,
+.kromo-urrea .kromo-izena-plaka {
+  background: rgba(255, 255, 255, 0.45);
+}
+
+.kromo-izena-plaka h3 {
+  font-family: 'Oswald', sans-serif;
+  margin: 0;
+  font-size: 1rem;
+  text-transform: uppercase;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.kromo-taldea {
+  margin: 1px 0 0;
+  font-size: 0.75rem;
+  opacity: 0.85;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.kromo-stats-barra {
+  width: 100%;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  border-top: 1px solid rgba(255, 255, 255, 0.35);
+  padding-top: 6px;
+}
+
+.kromo-zilarra .kromo-stats-barra,
+.kromo-urrea .kromo-stats-barra {
+  border-top-color: rgba(0, 0, 0, 0.2);
+}
+
+.kromo-stats-barra div {
+  display: flex;
+  flex-direction: column;
+  line-height: 1.1;
+}
+
+.kromo-stats-barra span {
+  font-family: 'Oswald', sans-serif;
+  font-size: 1rem;
+  font-weight: 700;
+}
+
+.kromo-stats-barra small {
+  font-size: 0.65rem;
+  opacity: 0.8;
+}
+
+/* ===== BOTONES INFERIORES DEL CROMO (KONPARATU + VOLTEO) ===== */
+.kromo-ekintza-lerroa {
+  margin-top: 8px;
+  width: 100%;
+  display: flex;
+  gap: 6px;
+  align-items: stretch;
+  height: 28px;
+}
+
+.kromo-ekintza-lerroa .konparatu-etiketa {
+  flex: 1;
+  margin-top: 0;
+  padding: 0 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  background: rgba(15, 23, 42, 0.28);
+  border: 1px solid rgba(255, 255, 255, 0.35);
+  border-radius: 8px;
+  color: inherit;
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.3px;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  user-select: none;
+}
+
+.kromo-ekintza-lerroa .konparatu-etiketa:hover {
+  background: rgba(15, 23, 42, 0.45);
+}
+
+.kromo-ekintza-lerroa .konparatu-etiketa:has(input:checked) {
+  background: #15803d;
+  border-color: #86efac;
+  color: #ffffff;
+  box-shadow: 0 2px 8px rgba(21, 128, 61, 0.5);
+}
+
+.konparatu-check {
+  width: 13px !important;
+  height: 13px !important;
+  min-width: 13px;
+  margin: 0;
+  accent-color: #22c55e;
+  cursor: pointer;
+  flex-shrink: 0;
+}
+
+.buelta-botoia {
+  width: 30px;
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(15, 23, 42, 0.28);
+  color: inherit;
+  border: 1px solid rgba(255, 255, 255, 0.35);
+  border-radius: 8px;
+  padding: 0;
+  font-size: 0.85rem;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.buelta-botoia:hover {
+  background: rgba(15, 23, 42, 0.5);
+  transform: rotate(180deg);
+}
+
+/* ===== KROMOAREN BUELTA (CARA / REVERSO 3D) ===== */
+.kromo-barnea {
+  width: 100%;
+  transition: transform 0.6s cubic-bezier(0.22, 1, 0.36, 1);
+  transform-style: preserve-3d;
+}
+
+.kromo.buelta-emanda .kromo-barnea {
+  transform: rotateY(180deg);
+}
+
+.kromo-aurpegia {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  backface-visibility: hidden;
+}
+
+.kromo-atzea {
+  position: absolute;
+  inset: 0;
   padding: 12px;
+  transform: rotateY(180deg);
+  justify-content: space-between;
+  text-align: left;
+  background: rgba(15, 23, 42, 0.92);
+  color: #f8fafc;
+  border-radius: 13px;
+}
+
+.kromo-atze-goia {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-family: 'Oswald', sans-serif;
+  font-size: 0.9rem;
+  color: #fde047;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+  padding-bottom: 4px;
+}
+
+.kromo-atze-datuak {
+  list-style: none;
+  padding: 0;
+  margin: 6px 0;
+  width: 100%;
+  font-size: 0.76rem;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.kromo-atze-datuak li {
+  display: flex;
+  justify-content: space-between;
+  border-bottom: 1px dashed rgba(255, 255, 255, 0.15);
+  padding-bottom: 2px;
+}
+
+.kromo-atze-iruzkina {
+  width: 100%;
+  margin: 0;
+  font-size: 0.74rem;
+  font-style: italic;
+  background: rgba(255, 255, 255, 0.1);
+  padding: 6px;
+  border-radius: 6px;
+  text-align: center;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* ===== XEHETASUNEN FITXA ===== */
+.xehetasun-goiburua {
+  display: flex;
+  align-items: center;
+  gap: 16px;
   margin-bottom: 16px;
 }
 
-.panel h3 {
-  margin-top: 0;
+.xehetasun-foto {
+  width: 90px;
+  height: 90px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 3px solid var(--primary);
 }
 
- .kudeatu {
-  border: 1px solid #d1d5db;
+.xehetasun-goiburua h2 {
+  font-family: 'Oswald', sans-serif;
+  margin: 0 0 4px;
+}
+
+.xehetasun-azpititulua {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin: 0 0 8px;
+  color: var(--text-muted);
+  font-size: 0.9rem;
+}
+
+.txapa {
+  display: inline-block;
+  padding: 3px 9px;
+  border-radius: 999px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  background-color: var(--surface-alt);
+  border: 1px solid var(--border);
+  margin-right: 4px;
+}
+
+.txapa-berdea { background: #dcfce7; color: #166534; border-color: #86efac; }
+.txapa-gorria { background: #fee2e2; color: #991b1b; border-color: #fca5a5; }
+
+.xehetasun-sareta {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+  font-size: 0.88rem;
+  background: var(--surface-alt);
+  padding: 12px;
+  border-radius: 10px;
+  margin-bottom: 16px;
+}
+
+.stats-koadroa {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 8px;
+  margin-bottom: 16px;
+}
+
+.stat-kutxa {
+  background: var(--surface-alt);
+  border: 1px solid var(--border);
   border-radius: 8px;
-  padding: 20px;
-  margin-bottom: 20px; 
-  background-color: #ffffff;
-  }
-
-.kudeatu input,
-.kudeatu textarea {
-  width: 100%;
-  box-sizing: border-box;
-  margin-bottom: 12px;
   padding: 8px;
+  text-align: center;
 }
+
+.stat-kutxa strong {
+  display: block;
+  font-family: 'Oswald', sans-serif;
+  font-size: 1.2rem;
+  color: var(--primary);
+}
+
+.stat-kutxa span {
+  font-size: 0.75rem;
+  color: var(--text-muted);
+}
+
+.balorazio-blokea {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.balorazio-izarrak {
+  font-size: 1.2rem;
+  color: #eab308;
+  margin: 0;
+}
+
+.iruzkin-kutxa {
+  background: var(--surface-alt);
+  padding: 10px;
+  border-radius: 8px;
+  margin: 0;
+  font-style: italic;
+}
+
+/* ===== ESTATISTIKAK (BANAKETA BARRAK ETA LORPENAK) ===== */
 .banaketa-errenkada {
   display: flex;
   align-items: center;
-  gap: 10px;
-  margin: 6px 0;
-  max-width: 700px;
+  gap: 8px;
+  margin: 4px 0;
+  max-width: 450px;
+}
+
+.banaketa-errenkada span:first-child {
+  width: 38px;
+  font-weight: 700;
+}
+
+.banaketa-errenkada span:last-child {
+  width: 78px;
+  font-size: 0.9rem;
 }
 
 .barra-atzekoa {
   flex: 1;
   height: 16px;
-  background-color: #e0e0e0;
+  background-color: var(--border);
+  border-radius: 4px;
+  overflow: hidden;
 }
 
 .barra-aurrekoa {
   height: 100%;
-  background-color: #2e7d32;
+  background: linear-gradient(90deg, #15803d, #22c55e);
 }
-@media (max-width: 800px) {
+
+.lorpenak-sareta {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  gap: 14px;
+}
+
+.lorpen-txartela {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 14px;
+  border-radius: 12px;
+  border: 1px solid var(--border);
+  background: var(--surface-alt);
+  transition: transform 0.2s ease;
+}
+
+.lorpen-txartela.lortuta {
+  border-color: #22c55e;
+  background: rgba(34, 197, 94, 0.1);
+}
+
+.lorpen-txartela.blokeatuta {
+  opacity: 0.55;
+  filter: grayscale(0.8);
+}
+
+.lorpen-ikonoa {
+  font-size: 1.8rem;
+}
+
+.lorpen-txartela strong {
+  display: block;
+  font-size: 0.95rem;
+}
+
+.lorpen-txartela p {
+  margin: 2px 0 0;
+  font-size: 0.78rem;
+  color: var(--text-muted);
+}
+
+.lorpen-egoera {
+  margin-left: auto;
+  font-size: 0.75rem;
+  font-weight: 700;
+  white-space: nowrap;
+}
+
+/* ===== KONPARATZAILEA ===== */
+.konparatzailea-goiburua {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 12px;
+}
+
+.konparatzailea-scroll {
+  overflow-x: auto;
+}
+
+.konparatzailea-taula {
+  width: 100%;
+  border-collapse: collapse;
+  text-align: center;
+}
+
+.konparatzailea-taula th,
+.konparatzailea-taula td {
+  border: 1px solid var(--border);
+  padding: 10px;
+}
+
+.konparatzailea-taula thead th {
+  background-color: var(--surface-alt);
+  font-family: 'Oswald', sans-serif;
+}
+
+.konparatzailea-taula tbody th {
+  text-align: left;
+  background-color: var(--surface-alt);
+  width: 170px;
+}
+
+.konparaketa-foto {
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 2px solid var(--primary);
+}
+
+.konparaketa-onena {
+  background-color: rgba(34, 197, 94, 0.18);
+  font-weight: 700;
+}
+
+.konp-barra {
+  width: 100%;
+  height: 6px;
+  background: var(--border);
+  border-radius: 4px;
+  margin-top: 5px;
+  overflow: hidden;
+}
+
+.konp-barra div {
+  height: 100%;
+  background: var(--primary);
+}
+
+/* ===== KROMO-ZORROAREN MODALA (PACK OPENING) ===== */
+.zorro-modala {
+  position: fixed;
+  inset: 0;
+  background: rgba(15, 23, 42, 0.85);
+  backdrop-filter: blur(6px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 9999;
+  padding: 20px;
+}
+
+.zorro-modala.ezkutatuta,
+.zorro-fasea.ezkutatuta {
+  display: none !important;
+}
+
+.zorro-edukiontzia {
+  position: relative;
+  background: radial-gradient(circle at top, #1e293b 0%, #0f172a 100%);
+  border: 2px solid #eab308;
+  border-radius: 20px;
+  padding: 32px 28px;
+  width: 100%;
+  max-width: 440px;
+  text-align: center;
+  color: #ffffff;
+  box-shadow: 0 25px 60px rgba(0, 0, 0, 0.7), 0 0 30px rgba(234, 179, 8, 0.25);
+}
+
+.zorro-itxi {
+  position: absolute;
+  top: 12px;
+  right: 14px;
+  background: rgba(255, 255, 255, 0.12);
+  color: #ffffff;
+  border: none;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  font-size: 1rem;
+  cursor: pointer;
+}
+
+.zorro-itxi:hover {
+  background: #dc2626;
+}
+
+.zorro-fasea {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 18px;
+}
+
+.kromo-zorroa {
+  position: relative;
+  width: 210px;
+  height: 295px;
+  border-radius: 16px;
+  background: linear-gradient(145deg, #facc15 0%, #ca8a04 45%, #713f12 100%);
+  border: 3px solid #fef08a;
+  box-shadow: 0 15px 35px rgba(234, 179, 8, 0.45);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 16px;
+  cursor: pointer;
+  overflow: hidden;
+  color: #1c1917;
+}
+
+.zorro-ikonoa {
+  font-size: 3.5rem;
+  margin-bottom: 8px;
+}
+
+.kromo-zorroa h3 {
+  font-family: 'Oswald', sans-serif;
+  font-size: 1.5rem;
+  margin: 0;
+  letter-spacing: 1px;
+}
+
+.kromo-zorroa p {
+  font-size: 0.75rem;
+  font-weight: 700;
+  margin: 4px 0 14px;
+  opacity: 0.85;
+}
+
+.zorro-txapa {
+  background: #0f172a;
+  color: #fde047;
+  font-size: 0.75rem;
+  font-weight: 700;
+  padding: 5px 12px;
+  border-radius: 999px;
+}
+
+.zorro-distira {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(120deg, transparent 30%, rgba(255, 255, 255, 0.6) 50%, transparent 70%);
+  animation: zorroDistira 2s infinite;
+}
+
+@keyframes zorroDistira {
+  0% { transform: translateX(-120%); }
+  100% { transform: translateX(120%); }
+}
+
+.dardara {
+  animation: dardaraAnim 1.6s infinite ease-in-out;
+}
+
+@keyframes dardaraAnim {
+  0%, 100% { transform: rotate(0deg) scale(1); }
+  20% { transform: rotate(-2.5deg) scale(1.02); }
+  40% { transform: rotate(2.5deg) scale(1.02); }
+  60% { transform: rotate(-1.5deg); }
+  80% { transform: rotate(1.5deg); }
+}
+
+.zorro-irekitzen {
+  animation: irekiLeherketa 0.45s forwards ease-out;
+}
+
+@keyframes irekiLeherketa {
+  0% { transform: scale(1); opacity: 1; filter: brightness(1); }
+  100% { transform: scale(1.35); opacity: 0; filter: brightness(3); }
+}
+
+.botoi-urrea {
+  padding: 11px 20px;
+  border: none;
+  border-radius: 10px;
+  font-weight: 700;
+  font-size: 0.95rem;
+  cursor: pointer;
+  background: linear-gradient(135deg, #fde047, #eab308);
+  color: #0f172a;
+  box-shadow: 0 6px 18px rgba(234, 179, 8, 0.4);
+  transition: transform 0.2s ease;
+}
+
+.botoi-urrea:hover:not(:disabled) {
+  transform: translateY(-2px);
+}
+
+.botoi-urrea:disabled {
+  opacity: 0.6;
+  cursor: wait;
+}
+
+#zorro-arrarotasuna-titulua {
+  font-family: 'Oswald', sans-serif;
+  color: #fde047;
+  margin: 0;
+  font-size: 1.35rem;
+  letter-spacing: 0.5px;
+}
+
+.zorro-kromo-animazioa {
+  width: 215px;
+  animation: kromoGiroa 0.7s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+@keyframes kromoGiroa {
+  0% {
+    transform: perspective(800px) rotateY(180deg) scale(0.4);
+    opacity: 0;
+  }
+  100% {
+    transform: perspective(800px) rotateY(0deg) scale(1);
+    opacity: 1;
+  }
+}
+
+.zorro-ekintzak {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.zorro-formularioa {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+}
+
+.zorro-formularioa label {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 0.85rem;
+  white-space: nowrap;
+}
+
+.zorro-formularioa input[type="number"] {
+  width: 55px;
+  text-align: center;
+}
+
+.zorro-formularioa input[type="text"] {
+  flex: 1;
+}
+
+.zorro-botoiak {
+  display: flex;
+  gap: 10px;
+  justify-content: center;
+}
+
+#zorro-gorde-mezua {
+  margin: 0;
+  font-size: 0.88rem;
+  font-weight: 600;
+  color: #4ade80;
+}
+
+/* ===== PORTADA HOBETUA (HASIERA) ===== */
+.portada-hero {
+  display: grid;
+  grid-template-columns: 1.6fr 1fr;
+  gap: 28px;
+  align-items: center;
+  background: radial-gradient(circle at top right, #166534 0%, #0f172a 65%);
+  color: #ffffff;
+  border-radius: 20px;
+  padding: 32px;
+  margin-bottom: 24px;
+  border: 1px solid rgba(250, 204, 21, 0.3);
+  box-shadow: 0 20px 40px rgba(15, 23, 42, 0.3);
+}
+
+.portada-etiketak {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 12px;
+}
+
+.portada-txapa {
+  background: rgba(250, 204, 21, 0.2);
+  border: 1px solid #fde047;
+  color: #fde047;
+  font-size: 0.78rem;
+  font-weight: 700;
+  padding: 4px 12px;
+  border-radius: 999px;
+}
+
+.portada-txapa-iluna {
+  background: rgba(255, 255, 255, 0.14);
+  color: #f8fafc;
+  font-size: 0.78rem;
+  font-weight: 600;
+  padding: 4px 12px;
+  border-radius: 999px;
+}
+
+.portada-hero h2 {
+  font-family: 'Oswald', sans-serif;
+  font-size: 2.2rem;
+  margin: 0 0 10px;
+  letter-spacing: 0.5px;
+}
+
+.portada-hero p {
+  color: #cbd5e1;
+  line-height: 1.6;
+  margin: 0 0 20px;
+}
+
+.portada-aurrerapena {
+  background: rgba(0, 0, 0, 0.3);
+  padding: 12px 14px;
+  border-radius: 12px;
+  margin-bottom: 20px;
+}
+
+.aurrerapen-testua {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.82rem;
+  margin-bottom: 6px;
+  color: #e2e8f0;
+}
+
+.aurrerapen-barra-atzekoa {
+  width: 100%;
+  height: 10px;
+  background: rgba(255, 255, 255, 0.18);
+  border-radius: 999px;
+  overflow: hidden;
+}
+
+.aurrerapen-barra-aurrekoa {
+  height: 100%;
+  background: linear-gradient(90deg, #eab308, #22c55e);
+  border-radius: 999px;
+  transition: width 0.5s ease;
+}
+
+.portada-botoiak {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.botoi-gardena {
+  padding: 10px 16px;
+  border: 1px solid rgba(255, 255, 255, 0.35);
+  border-radius: 10px;
+  background: rgba(255, 255, 255, 0.08);
+  color: #ffffff;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.botoi-gardena:hover {
+  background: rgba(255, 255, 255, 0.2);
+}
+
+.portada-hero-kromo {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  border-radius: 16px;
+  padding: 16px;
+}
+
+.portada-kromo-lekua {
+  width: 210px;
+  min-height: 295px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.portada-kromo-lekua .kromo {
+  width: 210px;
+  flex-shrink: 0;
+}
+
+.portada-kromo-titulua {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-family: 'Oswald', sans-serif;
+  font-size: 0.9rem;
+  color: #fde047;
+  margin-bottom: 10px;
+}
+
+#aldatu-kromo-nabarmendua {
+  background: rgba(255, 255, 255, 0.15);
+  border: none;
+  color: #ffffff;
+  border-radius: 8px;
+  padding: 4px 8px;
+  cursor: pointer;
+}
+
+#aldatu-kromo-nabarmendua:hover {
+  background: rgba(255, 255, 255, 0.3);
+}
+
+.kromo-hutsik-txartela {
+  width: 195px;
+  height: 260px;
+  border: 2px dashed rgba(255, 255, 255, 0.35);
+  border-radius: 16px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  color: #cbd5e1;
+  padding: 16px;
+}
+
+.kromo-hutsik-txartela span {
+  font-size: 2.5rem;
+  margin-bottom: 8px;
+}
+
+.portada-kpi-sareta {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 16px;
+  margin-bottom: 20px;
+}
+
+.kpi-txartela {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  margin-bottom: 0;
+}
+
+.kpi-ikonoa {
+  font-size: 2rem;
+  background: var(--surface-alt);
+  width: 52px;
+  height: 52px;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid var(--border);
+}
+
+.kpi-txartela strong {
+  display: block;
+  font-family: 'Oswald', sans-serif;
+  font-size: 1.6rem;
+  line-height: 1.1;
+  color: var(--primary);
+}
+
+.kpi-txartela span {
+  font-size: 0.82rem;
+  color: var(--text-muted);
+}
+
+.portada-top-sareta {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 18px;
+}
+
+.portada-pausoak {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 18px;
+}
+
+.pauso-txartela {
+  position: relative;
+  margin-bottom: 0;
+}
+
+.pauso-zenbakia {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  background: var(--primary);
+  color: #ffffff;
+  font-family: 'Oswald', sans-serif;
+  font-weight: 700;
+  margin-bottom: 8px;
+}
+
+.pauso-txartela h4 {
+  margin: 0 0 6px;
+  font-size: 1.05rem;
+}
+
+.pauso-txartela p {
+  margin: 0;
+  font-size: 0.88rem;
+  color: var(--text-muted);
+  line-height: 1.5;
+}
+
+/* ===== EZARPENAK ===== */
+.ezarpenak-sareta {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+  gap: 20px;
+}
+
+.ezarpen-txartela {
+  margin-bottom: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.ezarpen-lerroa {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 16px;
+  padding: 12px 0;
+  border-bottom: 1px solid var(--border);
+}
+
+.ezarpen-lerroa:last-child {
+  border-bottom: none;
+}
+
+.ezarpen-lerroa p,
+.ezarpen-deskribapena {
+  margin: 4px 0 0;
+  font-size: 0.84rem;
+  color: var(--text-muted);
+}
+
+.switch-modernoa {
+  position: relative;
+  display: inline-block;
+  width: 52px;
+  height: 28px;
+  flex-shrink: 0;
+}
+
+.switch-modernoa input {
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+.slider {
+  position: absolute;
+  cursor: pointer;
+  inset: 0;
+  background-color: var(--border);
+  border-radius: 999px;
+  transition: 0.3s;
+}
+
+.slider::before {
+  content: "";
+  position: absolute;
+  height: 20px;
+  width: 20px;
+  left: 4px;
+  bottom: 4px;
+  background-color: #ffffff;
+  border-radius: 50%;
+  transition: 0.3s;
+}
+
+.switch-modernoa input:checked + .slider {
+  background-color: var(--primary);
+}
+
+.switch-modernoa input:checked + .slider::before {
+  transform: translateX(24px);
+}
+
+.ezarpen-botoi-taldea {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: 12px;
+}
+
+.botoi-gardena-iluna {
+  padding: 9px 14px;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  background: var(--surface-alt);
+  color: var(--text);
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.ezarpen-info-kaxa {
+  background: var(--surface-alt);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  font-size: 0.9rem;
+}
+
+.ezarpen-info-kaxa div {
+  display: flex;
+  justify-content: space-between;
+}
+
+/* ===== BILDUMA KUDEATU (SARETA HOBETUA) ===== */
+.kudeatu-barra {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: center;
+  gap: 14px;
+}
+
+.kudeatu-bilaketa-taldea {
+  flex: 1;
+  min-width: 220px;
+}
+
+.kudeatu-bilaketa-taldea input {
+  width: 100%;
+}
+
+.kudeatu-tresnak {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.kudeatu-sareta {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 20px;
+}
+
+.kudeatu {
+  background-color: var(--surface);
+  border: 1px solid var(--border);
+  border-top: 5px solid var(--primary);
+  border-radius: 14px;
+  padding: 18px;
+  margin-bottom: 0;
+  box-shadow: var(--shadow);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.kudeatu.kromo-urrea-borde {
+  border-top-color: #eab308;
+}
+
+.kudeatu.kromo-zilarra-borde {
+  border-top-color: #94a3b8;
+}
+
+.kudeatu.kromo-brontzea-borde {
+  border-top-color: #b45309;
+}
+
+.kudeatu-goiburua {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  margin-bottom: 12px;
+}
+
+.kudeatu-goiburua img {
+  width: 64px;
+  height: 64px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+.kudeatu-tituluak h2 {
+  font-family: 'Oswald', sans-serif;
+  margin: 2px 0;
+  font-size: 1.2rem;
+}
+
+.kudeatu-tituluak p {
+  margin: 0;
+  font-size: 0.85rem;
+  color: var(--text-muted);
+}
+
+.kudeatu-izarrak {
+  color: #eab308;
+  font-size: 1rem;
+  letter-spacing: 1px;
+}
+
+.kudeatu-eremuak label {
+  display: block;
+  font-size: 0.85rem;
+  margin-bottom: 4px;
+}
+
+.kudeatu input,
+.kudeatu textarea {
+  width: 100%;
+  margin-bottom: 10px;
+}
+
+.kudeatu-botoiak {
+  display: flex;
+  gap: 10px;
+  margin-top: 6px;
+}
+
+.kudeatu-botoiak button {
+  flex: 1;
+}
+
+.egoera-mezua {
+  margin: 8px 0 0;
+  font-size: 0.84rem;
+  font-weight: 600;
+  color: var(--primary);
+  min-height: 1.1em;
+}
+
+/* ===== OINA ===== */
+#oina {
+  padding: 14px 20px;
+  background-color: var(--surface);
+  border-top: 1px solid var(--border);
+  text-align: center;
+  font-size: 0.88rem;
+  color: var(--text-muted);
+}
+/* ===== BILDUMA KONTROL BARRA MODERNOA ===== */
+.kontrol-barra-moderna {
+  display: grid;
+  grid-template-columns: 1.5fr 1fr 1fr;
+  gap: 18px;
+  align-items: end;
+  padding: 20px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+}
+
+.kontrol-barra-moderna .kontrol-taldea {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.kontrol-barra-moderna label {
+  font-size: 0.78rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.4px;
+  color: var(--text-muted);
+}
+
+.kontrol-barra-moderna input,
+.kontrol-barra-moderna select {
+  width: 100%;
+  height: 42px;
+  padding: 0 14px;
+  border: 1.5px solid var(--border);
+  border-radius: 10px;
+  background-color: var(--surface-alt);
+  color: var(--text);
+  font-family: 'Inter', sans-serif;
+  font-size: 0.92rem;
+  font-weight: 500;
+  transition: all 0.2s ease;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.03);
+}
+
+/* Flecha personalizada limpia para los <select> */
+.kontrol-barra-moderna select {
+  appearance: none;
+  -webkit-appearance: none;
+  padding-right: 36px;
+  cursor: pointer;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%2364748b' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 12px center;
+  background-size: 16px;
+}
+
+.kontrol-barra-moderna input:hover,
+.kontrol-barra-moderna select:hover {
+  border-color: var(--primary);
+  background-color: var(--surface);
+}
+
+.kontrol-barra-moderna input:focus,
+.kontrol-barra-moderna select:focus {
+  outline: none;
+  border-color: var(--primary);
+  background-color: var(--surface);
+  box-shadow: 0 0 0 3px rgba(21, 128, 61, 0.18);
+}
+
+@media (max-width: 850px) {
+  .kontrol-barra-moderna {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* ===== RESPONSIVE ===== */
+@media (max-width: 1000px) {
+  #bilatzaile-edukia,
+  .bilduma-edukiak {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 900px) {
+  .portada-hero,
+  .portada-pausoak {
+    grid-template-columns: 1fr;
+  }
+
+  .portada-kpi-sareta {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 750px) {
   #biltegi-nagusia {
     flex-direction: column;
   }
@@ -175,11 +1655,6 @@ body.iluna .kudeatu {
     flex-direction: row;
     flex-wrap: wrap;
     border-right: none;
-    border-bottom: 1px solid #ccc;
-  }
-
-  .bilatzaile-edukia,
-  .bilduma-edukiak {
-    grid-template-columns: 1fr;
+    border-bottom: 1px solid var(--border);
   }
 }

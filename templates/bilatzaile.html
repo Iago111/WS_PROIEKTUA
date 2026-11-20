@@ -5,16 +5,15 @@
   <form id="form-bilatzaile">
     <input type="text" id="jokalari-bilaketa" list="jokalari-historiala" autocomplete="off" placeholder="Jokalariaren Izena" required>
     <datalist id="jokalari-historiala"></datalist>
-    <input type="number" id="denboraldi-bilaketa" autocomplete="off" placeholder="Adb: 2022" min="2022", max="2024" required>
+    <input type="number" id="denboraldi-bilaketa" autocomplete="off" placeholder="Adb: 2022" min="2022" max="2024" required>
     <input type="number" id="talde-bilaketa-jokalaria" autocomplete="off" placeholder="Aukeratu taldea behean" required>
     <button type="submit">Bilatu</button>
   </form>
   <p id="egoera-bilatzen"></p>
   <button id="emaitzak-ezabatu">Ezabatu emaitzak</button>
-  <button id="harritu-botoia">Harritu nazazu</button>
+  <button id="harritu-botoia">🎁 Ireki Kromo-zorroa</button>
   <p id="harritu-egoera"></p>
 </section>
-
 
 <section id="talde-bilaketa-section" class="panel">
   <h3>Talde bilaketa</h3>
@@ -50,5 +49,44 @@
       <p></p>
     </div>
   </div>
+</div>
 
+<!-- KROMO-ZORROAREN MODALA (PACK OPENING) -->
+<div id="zorro-modala" class="zorro-modala ezkutatuta">
+  <div class="zorro-edukiontzia">
+    <button type="button" id="itxi-zorroa" class="zorro-itxi">✕</button>
+
+    <!-- 1. Fasea: Zorro itxia -->
+    <div id="zorro-itxia-fasea" class="zorro-fasea">
+      <div id="kromo-zorroa" class="kromo-zorroa dardara">
+        <div class="zorro-distira"></div>
+        <span class="zorro-ikonoa">⚽</span>
+        <h3>URREZKO ZORROA</h3>
+        <p>EDIZIO BEREZIA · 22/24</p>
+        <span id="zorro-egoera-testua" class="zorro-txapa">Kargatzen...</span>
+      </div>
+      <button type="button" id="ireki-zorroa-botoia" class="botoi-urrea" disabled>⏳ Zorroa prestatzen...</button>
+    </div>
+
+    <!-- 2. Fasea: Kromo irekia -->
+    <div id="zorro-irekia-fasea" class="zorro-fasea ezkutatuta">
+      <div class="zorro-distira-leherketa"></div>
+      <h3 id="zorro-arrarotasuna-titulua">✨ KROMO BERRIA!</h3>
+      <div id="zorro-kromo-lekua" class="zorro-kromo-animazioa"></div>
+
+      <div class="zorro-ekintzak">
+        <div class="zorro-formularioa">
+          <label>Balorazioa:
+            <input type="number" id="zorro-nota" min="1" max="5" value="4">
+          </label>
+          <input type="text" id="zorro-iruzkina" placeholder="Idatzi iruzkina (aukerakoa)...">
+        </div>
+        <div class="zorro-botoiak">
+          <button type="button" id="zorro-gorde-botoia" class="botoi-nagusia">🃏 Itsatsi Albumean</button>
+          <button type="button" id="zorro-berria-botoia" class="botoi-urrea">🎁 Beste Zorro Bat</button>
+        </div>
+        <p id="zorro-gorde-mezua"></p>
+      </div>
+    </div>
+  </div>
 </div>
