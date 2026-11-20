@@ -237,7 +237,21 @@ function kalkulatuEstatistikak(){
     }
     return acc;
   }, {1: 0, 2: 0, 3: 0, 4: 0, 5: 0});
-  banaketa.textContent = `1: ${baneketaEgin[1]}, 2: ${baneketaEgin[2]}, 3: ${baneketaEgin[3]}, 4: ${baneketaEgin[4]}, 5: ${baneketaEgin[5]}`;
+  const guztiraKop = nireBilduma.length;
+  banaketa.innerHTML = [5, 4, 3, 2, 1].map(nota => {
+    const kopurua = baneketaEgin[nota];
+    const ehunekoa = Math.round((kopurua / nireBilduma.length) * 100);
+
+    return `
+      <div class="banaketa-errenkada">
+        <span class="banaketa-nota">${nota} </span>
+        <div class="barra-atzekoa">
+          <div class="barra-aurrekoa" style="width: ${ehunekoa}%;"></div>
+        </div>
+        <span class="banaketa-datua">  ${kopurua} (${ehunekoa}%)</span>
+      </div>
+    `;
+  }).join("");
   //Gol gehien
   const jokalariGolak = nireBilduma.reduce((max, jokalaria) => {
     if (!max.estatistikak) return jokalaria;
